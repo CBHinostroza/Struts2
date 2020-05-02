@@ -4,14 +4,13 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
     <package name="Actions"  extends="struts-default">
-        <action name="saludo1" class="Actions.ActionSaludo" method="execute">
-            <result name="success">/Vistas/index.jsp</result>
-        </action>
-        <action name="saludo2" class="Actions.ActionSaludo" method="mensaje">
-            <result name="success">/Vistas/index.jsp</result>
+        <action name="listar" class="Actions.ActionProveedor" method="listar">
+            <result name="input">/Vistas/ListarProveedor.jsp</result>
         </action>
         <action name="proveedor"  class="Actions.ActionProveedor" method="execute">
             <result name="success">/Vistas/ListarProveedor.jsp</result>
+            <result name="input">/Vistas/RegistrarProveedor.jsp</result>
         </action>
+        
     </package>
 </struts>

@@ -17,20 +17,26 @@
         <table>
             <thead>
                 <tr>
-                    <td>Codigo</td>
+
                     <td>Nombre</td>
                     <td>Direccion</td>
                     <td>Territorio</td>
                     <td>Telefono</td>
                     <td>Email</td>
-                    <td colspan="2">Accion</td>
+
                 </tr>
             </thead>
             <tbody>
-                <s:property value="mensaje"></s:property>
-            </tbody>
-            <tfoot>
-            <a href="RegistrarProveedor.jsp"><input type="submit" value="Agregar"></a>
+                <tr>
+                    <td><s:property value="proveedor.nombre"></s:property></td>
+                    <td><s:property value="proveedor.direccion"></s:property></td>
+                    <td><s:property value="proveedor.codigo_territorio"></s:property></td>
+                    <td><s:property value="proveedor.email"></s:property></td>
+                    <td><s:property value="proveedor.telefono"></s:property></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+            <s:a href="RegistrarProveedor.jsp"><input type="button" value="Agregar"></s:a>
             </tfoot>
         </table>
     </body>

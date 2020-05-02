@@ -14,7 +14,7 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <s:property value="mensaje"></s:property>
-        <s:a action="proveedor"><input type="submit" value="Proveedores"></s:a>
+
+        <s:a action="listar"><input type="button" value="Proveedores"></s:a>
     </body>
 </html>
