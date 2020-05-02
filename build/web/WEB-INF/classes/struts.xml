@@ -3,12 +3,15 @@
      "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-    <package name="Actions" namespace="/" extends="struts-default">
+    <package name="Actions"  extends="struts-default">
         <action name="saludo1" class="Actions.ActionSaludo" method="execute">
             <result name="success">/Vistas/index.jsp</result>
         </action>
         <action name="saludo2" class="Actions.ActionSaludo" method="mensaje">
             <result name="success">/Vistas/index.jsp</result>
+        </action>
+        <action name="proveedor"  class="Actions.ActionProveedor" method="execute">
+            <result name="success">/Vistas/ListarProveedor.jsp</result>
         </action>
     </package>
 </struts>
