@@ -4,7 +4,10 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
     <package name="Actions" namespace="/" extends="struts-default">
-        <action name="saludo" class="Actions.ActionSaludo" method="execute">
+        <action name="saludo1" class="Actions.ActionSaludo" method="execute">
+            <result name="success">/Vistas/index.jsp</result>
+        </action>
+        <action name="saludo2" class="Actions.ActionSaludo" method="mensaje">
             <result name="success">/Vistas/index.jsp</result>
         </action>
     </package>
