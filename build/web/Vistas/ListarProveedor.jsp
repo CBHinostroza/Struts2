@@ -13,11 +13,12 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <s:a href="inicio">Regresar</s:a>
+        <hr>
         <h1>Hello World!</h1>
         <table>
             <thead>
                 <tr>
-
                     <td>Nombre</td>
                     <td>Direccion</td>
                     <td>Territorio</td>

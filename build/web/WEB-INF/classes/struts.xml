@@ -3,6 +3,8 @@
      "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
+    <constant name="struts.devMode" value="true">  
+    </constant>
     <package name="Actions"  extends="struts-default">
         <action name="listar" class="Actions.ActionProveedor" method="listar">
             <result name="input">/Vistas/ListarProveedor.jsp</result>
@@ -11,6 +13,21 @@
             <result name="success">/Vistas/ListarProveedor.jsp</result>
             <result name="input">/Vistas/RegistrarProveedor.jsp</result>
         </action>
+        <action name="listarproducto" class="Actions.ActionProducto" method="listarArreglo">
+             <result name="success">/Vistas/ListarProducto.jsp</result>
+             <result name="input">/Vistas/ListarProducto.jsp</result>
+        </action>
+        <action name="registrar" class="Actions.ActionProducto" method="registro">
+             <result name="success">/Vistas/ListarProducto.jsp</result>
+             <result name="input">/Vistas/RegistrarProducto.jsp</result>
+        </action>
+        <action name="MostrarCodigoList" class="Actions.ActionProducto">
+             <result name="success">/Vistas/respuesta.jsp</result>
+        </action>
         
+        <action name="inicio">
+            <result>/Vistas/index.jsp</result>
+        </action>
+         
     </package>
 </struts>

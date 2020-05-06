@@ -13,8 +13,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-
+        <h1>Menu navegacion</h1>
         <s:a action="listar"><input type="button" value="Proveedores"></s:a>
+        <s:a action="listarproducto"><input type="button" value="Productos"></s:a>
     </body>
 </html>
