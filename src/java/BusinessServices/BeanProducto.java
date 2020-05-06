@@ -1,9 +1,8 @@
 package BusinessServices;
 
-
 import java.sql.Date;
 
-public class BeanProducto  {
+public class BeanProducto {
 
     private int codigo;
     private String nombre;
@@ -21,7 +20,7 @@ public class BeanProducto  {
     public BeanProducto() {
     }
 
-    public BeanProducto(String nombre, int idcategoria, int idproveedor, int stockinicial, int stockminimo, String codigobarra,  double preciounitario) {
+    public BeanProducto(String nombre, int idcategoria, int idproveedor, int stockinicial, int stockminimo, String codigobarra, double preciounitario) {
         this.nombre = nombre;
         this.idcategoria = idcategoria;
         this.idproveedor = idproveedor;
@@ -43,6 +42,7 @@ public class BeanProducto  {
         return nombre;
     }
 
+    
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -127,5 +127,4 @@ public class BeanProducto  {
         this.preciounitario = preciounitario;
     }
 
-    
 }

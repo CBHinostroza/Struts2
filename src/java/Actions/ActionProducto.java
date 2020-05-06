@@ -7,10 +7,14 @@ package Actions;
 
 import BusinessServices.BeanProducto;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.validator.annotations.DateRangeFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Date;
+import org.apache.struts2.interceptor.validation.SkipValidation;
 
 /**
  *
@@ -18,81 +22,6 @@ import java.util.Date;
  */
 public class ActionProducto extends ActionSupport {
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public int getIdcategoria() {
-        return idcategoria;
-    }
-
-    public void setIdcategoria(int idcategoria) {
-        this.idcategoria = idcategoria;
-    }
-
-    public int getIdproveedor() {
-        return idproveedor;
-    }
-
-    public void setIdproveedor(int idproveedor) {
-        this.idproveedor = idproveedor;
-    }
-
-    public Date getFecharegistro() {
-        return fecharegistro;
-    }
-
-    public void setFecharegistro(Date fecharegistro) {
-        this.fecharegistro = fecharegistro;
-    }
-
-    public String getCodigobarra() {
-        return codigobarra;
-    }
-
-    public void setCodigobarra(String codigobarra) {
-        this.codigobarra = codigobarra;
-    }
-
-    public Date getFechaven() {
-        return fechaven;
-    }
-
-    public void setFechaven(Date fechaven) {
-        this.fechaven = fechaven;
-    }
-
-    public double getPreciounitario() {
-        return preciounitario;
-    }
-
-    public void setPreciounitario(double preciounitario) {
-        this.preciounitario = preciounitario;
-    }
-
-    public BeanProducto getProducto() {
-        return producto;
-    }
-
-    public void setProducto(BeanProducto producto) {
-        this.producto = producto;
-    }
-
-    private String codigo;
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    
     private String nombre;
     private int idcategoria;
     private int idproveedor;
@@ -103,44 +32,26 @@ public class ActionProducto extends ActionSupport {
     private Date fechaven;
     private double preciounitario;
     private BeanProducto producto;
-
-    public int getStockminimo() {
-        return stockminimo;
-    }
-
-    public void setStockminimo(int stockminimo) {
-        this.stockminimo = stockminimo;
-    }
-
-    public int getStockinicial() {
-        return stockinicial;
-    }
-
-    public void setStockinicial(int stockinicial) {
-        this.stockinicial = stockinicial;
-    }
+    private int cantidad;
+    private String codigo;
     private ArrayList<BeanProducto> lista;
 
-    public ArrayList<BeanProducto> getLista() {
-        return lista;
-    }
-
-    public void setLista(ArrayList<BeanProducto> lista) {
-        this.lista = lista;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
-    private int cantidad;
-
+//    @Override
+//    public void validate() {
+//
+//        if (getProducto().getNombre().equals("")) {
+//            addFieldError("errornombre", "Ingrese el nombre");
+//        }
+//        if (getProducto().getFechaven().equals("")) {
+//            addFieldError("errofechaven", "Ingrese la fecha de vencimiento");
+//        }
+//
+//    }
     
-
-    public String registro() throws Exception {
+//    @RequiredStringValidator(message = "Ingrese el nombre")
+    
+    @Override
+    public String execute() throws Exception {
         producto = new BeanProducto();
         producto.setNombre(nombre);
         producto.setIdcategoria(idcategoria);
@@ -173,17 +84,18 @@ public class ActionProducto extends ActionSupport {
             idproveedor = 2;
             stock_inicial = 3;
             stock_minimo = 4;
-            idbarra = "12323asdasd" +x;
+            idbarra = "12323asdasd" + x;
             precio_unitario = 15.45;
 
             lista.add(new BeanProducto(nombre, idcategoria, idproveedor, stock_inicial, stock_minimo, idbarra, precio_unitario));
         }
 
         cantidad = lista.size();
-        
-        
+
         return SUCCESS;
     }
+
+    @SkipValidation
     public String listarArreglo() throws Exception {
 
         lista = new ArrayList();
@@ -198,7 +110,7 @@ public class ActionProducto extends ActionSupport {
             idproveedor = 2;
             stock_inicial = 3;
             stock_minimo = 4;
-            idbarra = "12323asdasd"+x;
+            idbarra = "12323asdasd" + x;
             precio_unitario = 15.45;
 
             lista.add(new BeanProducto(nombre, idcategoria, idproveedor, stock_inicial, stock_minimo, idbarra, precio_unitario));
@@ -207,5 +119,124 @@ public class ActionProducto extends ActionSupport {
         cantidad = lista.size();
         return SUCCESS;
     }
+    
+    @SkipValidation
+    public String MostrarCodigoList(){
+        
+        return SUCCESS;
+    }
 
+    public String getNombre() {
+        return nombre;
+    }
+    //Trim true es para suprimir espacios en blanco
+    @RequiredStringValidator(message = "Ingrese el nombre", trim = true)
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getIdcategoria() {
+        return idcategoria;
+    }
+
+//    //Trim true es para suprimir espacios en blanco
+    @IntRangeFieldValidator(min = "1", message = "Ingrese un numero mayor o igual a 1")
+    public void setIdcategoria(int idcategoria) {
+        this.idcategoria = idcategoria;
+    }
+
+    public int getIdproveedor() {
+        return idproveedor;
+    }
+    
+    //Trim true es para suprimir espacios en blanco
+    @IntRangeFieldValidator(min = "1", message = "Ingrese un numero mayor o igual a 1")
+    public void setIdproveedor(int idproveedor) {
+        this.idproveedor = idproveedor;
+    }
+
+    public Date getFecharegistro() {
+        return fecharegistro;
+    }
+
+    public void setFecharegistro(Date fecharegistro) {
+        this.fecharegistro = fecharegistro;
+    }
+
+    public String getCodigobarra() {
+        return codigobarra;
+    }
+
+    public void setCodigobarra(String codigobarra) {
+        this.codigobarra = codigobarra;
+    }
+
+    public Date getFechaven() {
+        return fechaven;
+    }
+
+    @DateRangeFieldValidator(message = "Ingrese una fecha valida")
+    public void setFechaven(Date fechaven) {
+        this.fechaven = fechaven;
+    }
+
+    public double getPreciounitario() {
+        return preciounitario;
+    }
+
+    public void setPreciounitario(double preciounitario) {
+        this.preciounitario = preciounitario;
+    }
+
+    public BeanProducto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(BeanProducto producto) {
+        this.producto = producto;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public int getStockminimo() {
+        return stockminimo;
+    }
+
+    @IntRangeFieldValidator(min = "25", message = "Ingrese un numero mayor o igual 25")
+    public void setStockminimo(int stockminimo) {
+        this.stockminimo = stockminimo;
+    }
+
+    public int getStockinicial() {
+        return stockinicial;
+    }
+
+    @IntRangeFieldValidator(min = "50", max = "1000", message = "Ingrese un numero entre el rango de ${min} a ${max}")
+    public void setStockinicial(int stockinicial) {
+        this.stockinicial = stockinicial;
+    }
+
+    public ArrayList<BeanProducto> getLista() {
+        return lista;
+    }
+
+    public void setLista(ArrayList<BeanProducto> lista) {
+        this.lista = lista;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+   
 }

@@ -50,7 +50,6 @@
                 </tfoot>
             </table>
             <hr>
-            <br>
             <p>Ejemplo arreglo</p>
             <p>El arreglo tiene <s:property value="cantidad"></s:property> registros</p>
             <ul>
@@ -63,11 +62,12 @@
             </s:iterator>
         </ul>
         <hr>
-        <br>
-        <p>Ejemplo lista desplegable donde listKey sera su valor y listValue el dato a mostrar</p>
+        <h3>Ejemplo lista desplegable donde listKey sera su valor y listValue el dato a mostrar</h3>
         <s:form action="MostrarCodigoList">
             <s:select list="lista" headerKey = "- 1" headerValue = "Seleccionar" listKey="codigobarra" listValue="nombre" name="codigo"></s:select>
+            <s:checkboxlist list="lista" listKey="codigobarra" listValue="nombre" name="codigo"></s:checkboxlist>
+            <s:radio list="lista" listKey="codigobarra" listValue="nombre" name="codigo"></s:radio>
             <s:submit value="Enviar"></s:submit>
-        </s:form>
+        </s:form> 
     </body>
 </html>

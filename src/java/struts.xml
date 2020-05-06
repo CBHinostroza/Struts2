@@ -15,17 +15,15 @@
         </action>
         <action name="listarproducto" class="Actions.ActionProducto" method="listarArreglo">
              <result name="success">/Vistas/ListarProducto.jsp</result>
-             <result name="input">/Vistas/ListarProducto.jsp</result>
         </action>
-        <action name="registrar" class="Actions.ActionProducto" method="registro">
+        <action name="registrar" class="Actions.ActionProducto" method="execute">
              <result name="success">/Vistas/ListarProducto.jsp</result>
              <result name="input">/Vistas/RegistrarProducto.jsp</result>
         </action>
-        <action name="MostrarCodigoList" class="Actions.ActionProducto">
+        <action name="MostrarCodigoList" class="Actions.ActionProducto" method="MostrarCodigoList" >
              <result name="success">/Vistas/respuesta.jsp</result>
         </action>
-        
-        <action name="inicio">
+        <action name="inicio" >
             <result>/Vistas/index.jsp</result>
         </action>
          
