@@ -13,6 +13,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-       El codigo seleccionado es: <s:property value="codigo"></s:property>
+     <s:property value="mensaje"></s:property>
     </body>
 </html>

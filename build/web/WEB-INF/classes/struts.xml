@@ -6,22 +6,17 @@
     <constant name="struts.devMode" value="true">  
     </constant>
     <package name="Actions"  extends="struts-default">
-        <action name="listar" class="Actions.ActionProveedor" method="listar">
-            <result name="input">/Vistas/ListarProveedor.jsp</result>
-        </action>
         <action name="proveedor"  class="Actions.ActionProveedor" method="execute">
-            <result name="success">/Vistas/ListarProveedor.jsp</result>
-            <result name="input">/Vistas/RegistrarProveedor.jsp</result>
+            <result name="lista">/Vistas/ListarProveedor.jsp</result>
+            <result name="error">/Vistas/respuesta.jsp</result>
         </action>
-        <action name="listarproducto" class="Actions.ActionProducto" method="listarArreglo">
-             <result name="success">/Vistas/ListarProducto.jsp</result>
+        <action name="mostrarDistritos"  class="Actions.ActionProveedor" method="mostrarDistritos">
+            <result name="lista">/Vistas/RegistrarProveedor.jsp</result>
+            <result name="error">/Vistas/respuesta.jsp</result>
         </action>
-        <action name="registrar" class="Actions.ActionProducto" method="execute">
-             <result name="success">/Vistas/ListarProducto.jsp</result>
-             <result name="input">/Vistas/RegistrarProducto.jsp</result>
-        </action>
-        <action name="MostrarCodigoList" class="Actions.ActionProducto" method="MostrarCodigoList" >
-             <result name="success">/Vistas/respuesta.jsp</result>
+        <action name="producto" class="Actions.ActionProducto" method="execute">
+             <result name="lista">/Vistas/ListarProducto.jsp</result>
+             <result name="error">/Vistas/respuesta.jsp</result>
         </action>
         <action name="inicio" >
             <result>/Vistas/index.jsp</result>

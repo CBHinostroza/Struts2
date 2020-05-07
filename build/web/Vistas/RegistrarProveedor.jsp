@@ -16,11 +16,12 @@
         <s:fielderror/>
         <h1>Hello World!</h1>
         <s:form action="proveedor">
-            <s:textfield name="nombre" label="Nombre:"></s:textfield>
-            <s:textfield name="direccion" label="Direccion:"></s:textfield>
-            <s:textfield name="codigo_territorio" label="Territorio:"></s:textfield>
-            <s:textfield name="email" label="email"></s:textfield>
-            <s:textfield name="telefono" label="telefono"></s:textfield>
+            <s:hidden name="accion" value="INS"></s:hidden>
+            <s:textfield name="nombre" label="Nombre"></s:textfield>
+            <s:textfield name="direccion" label="Direccion"></s:textfield>
+            <s:select list="ListarTerritorio" listKey="codigoterritorio" listValue="distrito" name="codigo_territorio" label="Distrito"></s:select>
+            <s:textfield name="email" label="Email"></s:textfield>
+            <s:textfield name="telefono" label="Telefono"></s:textfield>
             <s:submit value="Enviar"></s:submit>
         </s:form>
     </body>

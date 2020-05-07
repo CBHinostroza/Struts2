@@ -15,6 +15,7 @@
     <body>
         <h1>Hello World!</h1>
         <s:form action="registrar">
+            
             <s:textfield name="nombre" label="Nombre"></s:textfield>
             <s:textfield name="idcategoria" label="Categoria"></s:textfield>
             <s:textfield name="idproveedor" label="Proveedor"></s:textfield>

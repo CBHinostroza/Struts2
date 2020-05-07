@@ -2,16 +2,34 @@ package BusinessServices;
 
 import java.io.Serializable;
 
-public class BeanProveedor {
+
+public class BeanProveedor implements Serializable{
 
     private int codigo;
     private String nombre;
     private String direccion;
+    private String distrito;
     private int codigo_territorio;
     private String telefono;
-    private String distrito;
     private String email;
 
+    public BeanProveedor(int codigo, String nombre, String direccion, String distrito, String telefono, String email) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.distrito = distrito;
+        this.telefono = telefono;
+        this.email = email;
+    }
+
+    public BeanProveedor(int codigo, String nombre, String direccion, int codigo_territorio, String telefono, String email) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.codigo_territorio = codigo_territorio;
+        this.telefono = telefono;
+        this.email = email;
+    }
 
     public BeanProveedor() {
     }
@@ -71,5 +89,4 @@ public class BeanProveedor {
     public void setEmail(String email) {
         this.email = email;
     }
-
 }

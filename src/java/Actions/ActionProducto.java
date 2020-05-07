@@ -6,14 +6,14 @@
 package Actions;
 
 import BusinessServices.BeanProducto;
+import DataService.Despachadores.Impl.ProductoDaoImpl;
+import DataService.Despachadores.ProductoDao;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.validator.annotations.DateRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
-import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 
 /**
@@ -34,101 +34,97 @@ public class ActionProducto extends ActionSupport {
     private BeanProducto producto;
     private int cantidad;
     private String codigo;
-    private ArrayList<BeanProducto> lista;
+    private List<BeanProducto> lista;
+    private String accion;
+    private String mensaje;
 
-//    @Override
-//    public void validate() {
-//
-//        if (getProducto().getNombre().equals("")) {
-//            addFieldError("errornombre", "Ingrese el nombre");
-//        }
-//        if (getProducto().getFechaven().equals("")) {
-//            addFieldError("errofechaven", "Ingrese la fecha de vencimiento");
-//        }
-//
-//    }
-    
-//    @RequiredStringValidator(message = "Ingrese el nombre")
-    
+    public List<BeanProducto> getLista() {
+        return lista;
+    }
+
+    public void setLista(List<BeanProducto> lista) {
+        this.lista = lista;
+    }
+
+    public String getAccion() {
+        return accion;
+    }
+
+    public void setAccion(String accion) {
+        this.accion = accion;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
     @Override
+    @SkipValidation
     public String execute() throws Exception {
-        producto = new BeanProducto();
-        producto.setNombre(nombre);
-        producto.setIdcategoria(idcategoria);
-        producto.setIdproveedor(idproveedor);
-        producto.setStockinicial(stockinicial);
-        producto.setStockminimo(stockminimo);
-        producto.setCodigobarra(codigobarra);
+
+        String target = "error";
+        ProductoDao productoDao = new ProductoDaoImpl();
+
+        switch (accion) {
+            case "QRY":
+                lista = productoDao.listarProducto();
+                if (lista != null) {
+                    target = "lista";
+                } else {
+                    mensaje = "Error en el metodo listar producto";
+                }
+                break;
+            default:
+                mensaje = "Error en la condicional switch";
+                break;
+        }
+
         /*Dando el formato fecha al ingresar 09/09/1999 para luego convertirlo al formato sql 1999-09-09 al guardar en la db*/
-        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
-        java.sql.Date fechasql = null;
-        try {
-            java.util.Date fechaven1 = f.parse(f.format(fechaven));
-            fechasql = new java.sql.Date(fechaven1.getTime());
-        } catch (Exception e) {
-            System.out.println("Error al formatear la fecha: " + e.getMessage());
-        }
-        producto.setFechaven(fechasql);
-        producto.setPreciounitario(preciounitario);
-
-        lista = new ArrayList();
-        String nombre = null, idbarra = null;
-        int idcategoria = 0, idproveedor = 0, stock_inicial = 0, stock_minimo = 0;
-        double precio_unitario = 0;
-
-        /*MOSTRANDO EL ARREGLO TAMBIEN*/
-        for (int x = 0; x < 10; x++) {
-
-            nombre = "Carlos  " + x;
-            idcategoria = 1;
-            idproveedor = 2;
-            stock_inicial = 3;
-            stock_minimo = 4;
-            idbarra = "12323asdasd" + x;
-            precio_unitario = 15.45;
-
-            lista.add(new BeanProducto(nombre, idcategoria, idproveedor, stock_inicial, stock_minimo, idbarra, precio_unitario));
-        }
-
-        cantidad = lista.size();
-
-        return SUCCESS;
+//        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+//        java.sql.Date fechasql = null;
+//        try {
+//            java.util.Date fechaven1 = f.parse(f.format(fechaven));
+//            fechasql = new java.sql.Date(fechaven1.getTime());
+//        } catch (Exception e) {
+//            System.out.println("Error al formatear la fecha: " + e.getMessage());
+//        }
+        return target;
     }
 
-    @SkipValidation
-    public String listarArreglo() throws Exception {
-
-        lista = new ArrayList();
-        String nombre = null, idbarra;
-        int idcategoria = 0, idproveedor = 0, stock_inicial = 0, stock_minimo = 0;
-        double precio_unitario = 0;
-
-        for (int x = 0; x < 10; x++) {
-
-            nombre = "Carlos  " + x;
-            idcategoria = 1;
-            idproveedor = 2;
-            stock_inicial = 3;
-            stock_minimo = 4;
-            idbarra = "12323asdasd" + x;
-            precio_unitario = 15.45;
-
-            lista.add(new BeanProducto(nombre, idcategoria, idproveedor, stock_inicial, stock_minimo, idbarra, precio_unitario));
-        }
-
-        cantidad = lista.size();
-        return SUCCESS;
-    }
-    
-    @SkipValidation
-    public String MostrarCodigoList(){
-        
-        return SUCCESS;
-    }
+//    @SkipValidation
+//    public String listarArreglo() throws Exception {
+//
+//        lista = new ArrayList();
+//        String nombre = null, idbarra;
+//        int idcategoria = 0, idproveedor = 0, stock_inicial = 0, stock_minimo = 0;
+//        double precio_unitario = 0;
+//
+//        for (int x = 0; x < 10; x++) {
+//
+//            nombre = "Carlos  " + x;
+//            idcategoria = 1;
+//            idproveedor = 2;
+//            stock_inicial = 3;
+//            stock_minimo = 4;
+//            idbarra = "12323asdasd" + x;
+//            precio_unitario = 15.45;
+//
+//            lista.add(new BeanProducto(nombre, idcategoria, idproveedor, stock_inicial, stock_minimo, idbarra, precio_unitario));
+//        }
+//
+//        cantidad = lista.size();
+//        return SUCCESS;
+//    }
+   
 
     public String getNombre() {
         return nombre;
     }
+
     //Trim true es para suprimir espacios en blanco
     @RequiredStringValidator(message = "Ingrese el nombre", trim = true)
     public void setNombre(String nombre) {
@@ -148,7 +144,7 @@ public class ActionProducto extends ActionSupport {
     public int getIdproveedor() {
         return idproveedor;
     }
-    
+
     //Trim true es para suprimir espacios en blanco
     @IntRangeFieldValidator(min = "1", message = "Ingrese un numero mayor o igual a 1")
     public void setIdproveedor(int idproveedor) {
@@ -222,14 +218,6 @@ public class ActionProducto extends ActionSupport {
         this.stockinicial = stockinicial;
     }
 
-    public ArrayList<BeanProducto> getLista() {
-        return lista;
-    }
-
-    public void setLista(ArrayList<BeanProducto> lista) {
-        this.lista = lista;
-    }
-
     public int getCantidad() {
         return cantidad;
     }
@@ -238,5 +226,4 @@ public class ActionProducto extends ActionSupport {
         this.cantidad = cantidad;
     }
 
-   
 }

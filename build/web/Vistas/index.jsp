@@ -14,7 +14,14 @@
     </head>
     <body>
         <h1>Menu navegacion</h1>
-        <s:a action="listar"><input type="button" value="Proveedores"></s:a>
-        <s:a action="listarproducto"><input type="button" value="Productos"></s:a>
+        
+        <s:url action="proveedor" var="urlQRY">
+            <s:param name="accion">QRY</s:param>
+        </s:url>
+            <s:a href="%{urlQRY}"><input type="button" value="Proveedor"></s:a>
+        <s:url action="producto" var="urlQRY">
+            <s:param name="accion" >QRY</s:param>
+        </s:url>
+        <s:a href="%{urlQRY}"><input type="button" value="Producto"></s:a>
     </body>
 </html>
