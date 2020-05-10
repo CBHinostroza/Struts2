@@ -18,9 +18,19 @@
              <result name="lista">/Vistas/ListarProducto.jsp</result>
              <result name="error">/Vistas/respuesta.jsp</result>
         </action>
+        <action name="BuscarProveedor" class="Actions.ActionProveedor" method="ListarProveedor">
+            <result name="lista">/Vistas/BuscarProveedor.jsp</result>
+        </action>
+        <action name="MostrarCodigoProveedor" class="Actions.ActionProducto" method="MostrarCodigoProveedor">
+            <result name="lista">/Vistas/RegistrarProducto.jsp</result>
+            <result name="error">/Vistas/respuesta.jsp</result>
+        </action>
+        <action name="ListarCategoria" class="Actions.ActionProducto" method="ListarCategoria">
+            <result name="lista">/Vistas/RegistrarProducto.jsp</result>
+            <result name="error">/Vistas/respuesta.jsp</result>
+        </action>
         <action name="inicio" >
             <result>/Vistas/index.jsp</result>
         </action>
-         
     </package>
 </struts>

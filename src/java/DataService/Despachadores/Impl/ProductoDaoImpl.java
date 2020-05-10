@@ -63,7 +63,38 @@ public class ProductoDaoImpl implements ProductoDao {
 
     @Override
     public String Registrar(BeanProducto producto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String resultado = null;
+        CallableStatement cstm = null;
+        cn = ConectaDB.conectar();
+        String sql = "call sp_RegistroProducto(?,?,?,?,?,?,?,?)";
+        try {
+
+            cstm = (CallableStatement) cn.prepareCall(sql);
+            cstm.setString(1, producto.getNombre());
+            cstm.setInt(2, producto.getIdcategoria());
+            cstm.setInt(3, producto.getIdproveedor());
+            cstm.setInt(4, producto.getStockinicial());
+            cstm.setInt(5, producto.getStockminimo());
+            cstm.setString(6, producto.getCodigobarra());
+            cstm.setDate(7, producto.getFechaven());
+            cstm.setDouble(8, producto.getPreciounitario());
+            cstm.executeQuery();
+
+        } catch (SQLException e) {
+            resultado = "Error en el metodo Registrar Producto: " + e.getMessage();
+        } finally {
+            try {
+                if (cstm != null) {
+                    cstm.close();
+                }
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (SQLException e) {
+                resultado = "Error al desconectar: " + e.getMessage();
+            }
+        }
+        return resultado;
     }
 
     @Override

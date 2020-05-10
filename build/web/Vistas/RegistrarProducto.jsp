@@ -13,12 +13,16 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <s:form action="registrar">
-            
+        <h1>Registrar Producto</h1>
+        <s:url action="BuscarProveedor" var="urlQRY">
+            <s:param name="accion">QRY</s:param>
+        </s:url>
+        <s:a href="%{urlQRY}"><input type="button" value="Agregar proveedor"></s:a>
+        <s:form action="producto">
+            <s:hidden name="accion" value="INS"></s:hidden>
             <s:textfield name="nombre" label="Nombre"></s:textfield>
-            <s:textfield name="idcategoria" label="Categoria"></s:textfield>
-            <s:textfield name="idproveedor" label="Proveedor"></s:textfield>
+            <s:select list="listarcategoria" listKey="codigocategoria" listValue="categoria" name="codigo_categoria" label="Categoria"></s:select>
+            <s:textfield name="idproveedor" label="Proveedor" value="%{idproveedor}"></s:textfield>
             <s:textfield name="stockinicial" label="Stock Inicial"></s:textfield>
             <s:textfield name="stockminimo" label="Stock Minimo"></s:textfield>
             <s:textfield name="codigobarra" label="Codigo de Barra"></s:textfield>
@@ -26,7 +30,5 @@
             <s:textfield name="preciounitario" label="Precio Unitario"></s:textfield>
             <s:submit value="Guardar"></s:submit>
         </s:form>
-        
-
     </body>
 </html>

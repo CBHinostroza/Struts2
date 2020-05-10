@@ -1,6 +1,6 @@
 <%-- 
-    Document   : ListarProveedor
-    Created on : 02/05/2020, 03:00:12 PM
+    Document   : ObtenerProveedor
+    Created on : 09/05/2020, 08:02:40 PM
     Author     : bryan
 --%>
 
@@ -13,21 +13,20 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <s:a href="inicio">Regresar</s:a>
-            <hr>
-            <h1>Hello World!</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <td>Codigo</td>
-                        <td>Nombre</td>
-                        <td>Direccion</td>
-                        <td>Distrito</td>
-                        <td>Telefono</td>
-                        <td>Email</td>
-                    </tr>
-                </thead>
-                <tbody>
+        <h1>Seleccionar Proveedor</h1>
+        <table>
+            <thead>
+                <tr>
+                    <td>Codigo</td>
+                    <td>Nombre</td>
+                    <td>Direccion</td>
+                    <td>Distrito</td>
+                    <td>Telefono</td>
+                    <td>Email</td>
+                    <td>Accion</td>
+                </tr>
+            </thead>
+            <tbody>
                 <s:iterator value="lista" status="estado">
                     <tr>
                         <td><s:property value="codigo"></s:property></td>
@@ -36,15 +35,15 @@
                         <td><s:property value="distrito"></s:property></td>
                         <td><s:property value="telefono"></s:property></td>
                         <td><s:property value="email"></s:property></td>
+                            <td>
+                            <s:url action="MostrarCodigoProveedor" var="urlINS">
+                                <s:param name="idproveedor"><s:property value="codigo"/></s:param>
+                            </s:url>
+                            <s:a href="%{urlINS}"><input type="button" value="Agregar"></s:a>
+                            </td>
                         </tr>
                 </s:iterator>
             </tbody>
-            <tfoot>
-                <td>
-                    <s:url action="mostrarDistritos" var="irRegistro"></s:url>
-                    <s:a href="%{irRegistro}"><input type="button" value="Agregar"></s:a>
-                </td>
-            </tfoot>
         </table>
     </body>
 </html>

@@ -35,7 +35,6 @@
                         <td><s:property value="direccion"></s:property></td>
                         <td><s:property value="distrito"></s:property></td>
                         <td><s:property value="telefono"></s:property></td>
-                        <td><s:property value=""></s:property></td>
                         <td><s:property value="email"></s:property></td>
                         </tr>
                 </s:iterator>

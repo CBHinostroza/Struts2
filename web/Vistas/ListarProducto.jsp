@@ -50,13 +50,12 @@
             <tfoot>
                 <tr>
                     <td>
-                        <s:a href="RegistrarProducto.jsp"><input type="button" value="Agregar"></s:a>
+                    <s:url action="ListarCategoria" var="irRegistro"></s:url>
+                    <s:a href="%{irRegistro}"><input type="button" value="Agregar"></s:a>
                     </td>
                 </tr>
             </tfoot>
         </table>
-        <hr>
-        <h3>Ejemplo lista desplegable donde listKey sera su valor y listValue el dato a mostrar</h3>
         <!--
         <sform action="MostrarCodigoList">
             <sselect list="lista" headerKey = "- 1" headerValue = "Seleccionar" listKey="codigobarra" listValue="nombre" name="codigo"></sselect>

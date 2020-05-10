@@ -5,13 +5,17 @@
  */
 package Actions;
 
+import BusinessServices.BeanCategoria;
 import BusinessServices.BeanProducto;
+import DataService.Despachadores.CategoriaDao;
+import DataService.Despachadores.Impl.CategoriaDaoImpl;
 import DataService.Despachadores.Impl.ProductoDaoImpl;
 import DataService.Despachadores.ProductoDao;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.validator.annotations.DateRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import org.apache.struts2.interceptor.validation.SkipValidation;
@@ -37,6 +41,30 @@ public class ActionProducto extends ActionSupport {
     private List<BeanProducto> lista;
     private String accion;
     private String mensaje;
+    
+    
+    /*Variable y metodos de acceso solo para el metodo Listar Categoria del Select List en RegistrarProducto.jsp*/
+    private List<BeanCategoria> listarcategoria;
+
+    public List<BeanCategoria> getListarcategoria() {
+        return listarcategoria;
+    }
+
+    public void setListarcategoria(List<BeanCategoria> listarcategoria) {
+        this.listarcategoria = listarcategoria;
+    }
+    
+    /**/
+    private int codigo_categoria;
+
+    public int getCodigo_categoria() {
+        return codigo_categoria;
+    }
+
+    public void setCodigo_categoria(int codigo_categoria) {
+        this.codigo_categoria = codigo_categoria;
+    }
+   
 
     public List<BeanProducto> getLista() {
         return lista;
@@ -78,6 +106,37 @@ public class ActionProducto extends ActionSupport {
                     mensaje = "Error en el metodo listar producto";
                 }
                 break;
+            case "INS":
+                producto = new BeanProducto();
+                producto.setNombre(nombre);
+                producto.setIdcategoria(codigo_categoria);
+                producto.setIdproveedor(idproveedor);
+                producto.setStockinicial(stockinicial);
+                producto.setStockminimo(stockminimo);
+                producto.setCodigobarra(codigobarra);
+
+                SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+                java.sql.Date fechasql = null;
+                try {
+                    java.util.Date fechaven1 = f.parse(f.format(fechaven));
+                    fechasql = new java.sql.Date(fechaven1.getTime());
+                } catch (Exception e) {
+                    mensaje = "Error al formatear la fecha: " + e.getMessage();
+                }
+                producto.setFechaven(fechasql);
+                producto.setPreciounitario(preciounitario);
+                mensaje = productoDao.Registrar(producto);
+                if (mensaje == null) {
+                    lista = productoDao.listarProducto();
+                    if (lista != null) {
+                        target = "lista";
+                    } else {
+                        mensaje = "Error en el metodo listar producto";
+                    }
+                } else {
+                    target = "error";
+                }
+                break;
             default:
                 mensaje = "Error en la condicional switch";
                 break;
@@ -93,6 +152,35 @@ public class ActionProducto extends ActionSupport {
 //            System.out.println("Error al formatear la fecha: " + e.getMessage());
 //        }
         return target;
+    }
+
+    @SkipValidation
+    public String MostrarCodigoProveedor(){
+        /*Si no indico todo este codigo, me dara error porque al retornar al formulario producto cuando
+        ya haya seleccionado el codigo y dado clik en agregar, esa pagina jsp me pedira una lista tipo listarcategoria*/
+        String ir = "error";
+        CategoriaDao categoriaDao = new CategoriaDaoImpl();
+        listarcategoria = categoriaDao.listar();
+        if (listarcategoria != null) {
+            ir = "lista";
+        } else {
+            mensaje = "Error en el metodo ListarTerritorio del action proveedor";
+        }
+        return ir;
+    }
+    
+    @SkipValidation
+    public String ListarCategoria(){
+        String ir = "error";
+        CategoriaDao categoriaDao = new CategoriaDaoImpl();
+        listarcategoria = categoriaDao.listar();
+        if (listarcategoria != null) {
+            ir = "lista";
+        } else {
+            mensaje = "Error en el metodo ListarTerritorio del action proveedor";
+        }
+
+        return ir;
     }
 
 //    @SkipValidation
@@ -119,8 +207,6 @@ public class ActionProducto extends ActionSupport {
 //        cantidad = lista.size();
 //        return SUCCESS;
 //    }
-   
-
     public String getNombre() {
         return nombre;
     }

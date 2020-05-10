@@ -83,6 +83,27 @@ public class ActionProveedor extends ActionSupport {
     }
 
     @SkipValidation
+    public String ListarProveedor() {
+        ProveedorDao proveedorDao = new ProveedorDaoImpl();
+        String target = "error";
+        switch (accion) {
+            case "QRY":
+                lista = proveedorDao.listarProvedor();
+                if (lista != null) {
+                    target = "lista";
+                } else {
+                    mensaje = "Error en el metodo listar proveedor";
+                }
+                break;
+            default:
+                mensaje = "Error en la condicional switch";
+                break;
+        }
+        return target;
+    }
+   
+    
+    @SkipValidation
     public String mostrarDistritos() {
         String ir = "error";
         TerritorioDao territorioDao = new TerritorioDaoImpl();
