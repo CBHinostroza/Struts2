@@ -9,6 +9,7 @@
         <action name="proveedor"  class="Actions.ActionProveedor" method="execute">
             <result name="lista">/Vistas/ListarProveedor.jsp</result>
             <result name="error">/Vistas/respuesta.jsp</result>
+            <result name="editar">/Vistas/ActualizarProveedor.jsp</result>
         </action>
         <action name="mostrarDistritos"  class="Actions.ActionProveedor" method="mostrarDistritos">
             <result name="lista">/Vistas/RegistrarProveedor.jsp</result>
@@ -16,16 +17,15 @@
         </action>
         <action name="producto" class="Actions.ActionProducto" method="execute">
              <result name="lista">/Vistas/ListarProducto.jsp</result>
+             <result name="editar">/Vistas/ActualizarProducto.jsp</result>
+             <result name="registrar">/Vistas/RegistrarProducto.jsp</result>
              <result name="error">/Vistas/respuesta.jsp</result>
+             <result name="input">/Vistas/RegistrarProducto.jsp</result>
         </action>
         <action name="BuscarProveedor" class="Actions.ActionProveedor" method="ListarProveedor">
             <result name="lista">/Vistas/BuscarProveedor.jsp</result>
         </action>
         <action name="MostrarCodigoProveedor" class="Actions.ActionProducto" method="MostrarCodigoProveedor">
-            <result name="lista">/Vistas/RegistrarProducto.jsp</result>
-            <result name="error">/Vistas/respuesta.jsp</result>
-        </action>
-        <action name="ListarCategoria" class="Actions.ActionProducto" method="ListarCategoria">
             <result name="lista">/Vistas/RegistrarProducto.jsp</result>
             <result name="error">/Vistas/respuesta.jsp</result>
         </action>

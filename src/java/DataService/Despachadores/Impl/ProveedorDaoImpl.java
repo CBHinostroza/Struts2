@@ -103,17 +103,110 @@ public class ProveedorDaoImpl implements ProveedorDao {
 
     @Override
     public BeanProveedor Buscar(int codigo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        cn = ConectaDB.conectar();
+        ResultSet rs = null;
+        CallableStatement cstm = null;
+        String sql = "call sp_BuscarProveedor(?)";
+        BeanProveedor proveedor = null;
+        try {
+
+            cstm = cn.prepareCall(sql);
+            cstm.setInt(1, codigo);
+            rs = cstm.executeQuery();
+            while (rs.next()) { //Mientra haya una fila entonces
+
+                proveedor = new BeanProveedor(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getInt(4),
+                        rs.getString(5),
+                        rs.getString(6)); //Obteniendo los datos y guardando la objeto proveedor 
+
+            }
+        } catch (SQLException e) {
+            System.out.println("Error en el metodo Buscar Producto: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (cstm != null) {
+                    cstm.close();
+                }
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar las conexiones Buscar Producto: " + e.getMessage());
+            }
+        }
+
+        return proveedor;
     }
 
     @Override
-    public String Editar(int codigo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String Editar(BeanProveedor proveedor) {
+        String resultado = null;
+        CallableStatement cstm = null;
+        cn = ConectaDB.conectar();
+        String sql = "call sp_EditarProveedor(?,?,?,?,?,?)";
+        try {
+
+            cstm = cn.prepareCall(sql);
+            cstm.setInt(1, proveedor.getCodigo());
+            cstm.setString(2, proveedor.getNombre());
+            cstm.setString(3, proveedor.getDireccion());
+            cstm.setInt(4, proveedor.getCodigo_territorio());
+            cstm.setString(5, proveedor.getTelefono());
+            cstm.setString(6, proveedor.getEmail());
+            cstm.executeUpdate();
+
+        } catch (SQLException e) {
+            resultado = "Error en el metodo Editar Proveedor: " + e.getMessage();
+        } finally {
+            try {
+                if (cstm != null) {
+                    cstm.close();
+                }
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (SQLException e) {
+                resultado = "Error al desconectar: " + e.getMessage();
+            }
+        }
+        return resultado;
     }
 
     @Override
     public String Eliminar(int codigo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        String resultado = null;
+        CallableStatement cstm = null;
+        cn = ConectaDB.conectar();
+        String sql = "call sp_EliminarProveedor(?)";
+        try {
+            cstm = cn.prepareCall(sql);
+            cstm.setInt(1, codigo);
+            cstm.executeQuery();
+
+        } catch (SQLException e) {
+            resultado = "Error en el metodo Eliminar Proveedor: " + e.getMessage();
+        } finally {
+            try {
+                if (cstm != null) {
+                    cstm.close();
+                }
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (SQLException e) {
+                resultado = "Error al desconectar: " + e.getMessage();
+            }
+        }
+        return resultado;
     }
 
 }

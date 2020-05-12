@@ -17,6 +17,6 @@ public interface ProductoDao {
     public List<BeanProducto> listarProducto();
     public String Registrar(BeanProducto producto);
     public BeanProducto Buscar(int codigo);
-    public String Editar(int codigo);
+    public String Editar(BeanProducto producto);
     public String Eliminar(int codigo);
 }

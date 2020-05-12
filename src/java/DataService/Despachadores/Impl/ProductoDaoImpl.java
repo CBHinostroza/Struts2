@@ -39,7 +39,6 @@ public class ProductoDaoImpl implements ProductoDao {
                         rs.getInt(5), rs.getDate(6), rs.getInt(7), rs.getString(8), rs.getDate(9), rs.getDouble(10));
                 listar.add(producto);
             }
-
         } catch (SQLException e) {
             System.out.println("Error metodo Listar producto: " + e.getMessage());
         } finally {
@@ -99,17 +98,103 @@ public class ProductoDaoImpl implements ProductoDao {
 
     @Override
     public BeanProducto Buscar(int codigo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        cn = ConectaDB.conectar();
+        CallableStatement cstm = null;
+        ResultSet rs = null;
+        String sql = "call sp_BuscarProducto(?)";
+        BeanProducto producto = null;
+        try {
+            cstm = (CallableStatement) cn.prepareCall(sql);
+            cstm.setInt(1, codigo);
+            rs = cstm.executeQuery();
+            while (rs.next()) { //Mientra haya una fila entonces
+                producto = new BeanProducto(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(7), rs.getString(8), rs.getDate(9), rs.getDouble(10));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error metodo Buscar Producto: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (cstm != null) {
+                    cstm.close();
+                }
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar las conexiones: " + e.getMessage());
+            }
+        }
+
+        return producto;
     }
 
     @Override
-    public String Editar(int codigo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String Editar(BeanProducto producto) {
+        String resultado = null;
+        CallableStatement cstm = null;
+        cn = ConectaDB.conectar();
+        String sql = "call sp_EditarProducto(?,?,?,?,?,?,?,?,?)";
+        try {
+
+            cstm = (CallableStatement) cn.prepareCall(sql);
+            cstm.setInt(1, producto.getCodigo());
+            cstm.setString(2, producto.getNombre());
+            cstm.setInt(3, producto.getIdcategoria());
+            cstm.setInt(4, producto.getIdproveedor());
+            cstm.setInt(5, producto.getStockinicial());
+            cstm.setInt(6, producto.getStockminimo());
+            cstm.setString(7, producto.getCodigobarra());
+            cstm.setDate(8, producto.getFechaven());
+            cstm.setDouble(9, producto.getPreciounitario());
+            cstm.executeUpdate();
+
+        } catch (SQLException e) {
+            resultado = "Error en el metodo Editar Producto: " + e.getMessage();
+        } finally {
+            try {
+                if (cstm != null) {
+                    cstm.close();
+                }
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (SQLException e) {
+                resultado = "Error al desconectar: " + e.getMessage();
+            }
+        }
+        return resultado;
     }
 
     @Override
     public String Eliminar(int codigo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String resultado = null;
+        CallableStatement cstm = null;
+        cn = ConectaDB.conectar();
+        String sql = "call sp_EliminarProducto(?)";
+        try {
+            cstm = (CallableStatement) cn.prepareCall(sql);
+            cstm.setInt(1, codigo);
+            cstm.executeQuery();
+
+        } catch (SQLException e) {
+            resultado = "Error en el metodo Eliminar Producto: " + e.getMessage();
+        } finally {
+            try {
+                if (cstm != null) {
+                    cstm.close();
+                }
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (SQLException e) {
+                resultado = "Error al desconectar: " + e.getMessage();
+            }
+        }
+        return resultado;
+
     }
 
 }

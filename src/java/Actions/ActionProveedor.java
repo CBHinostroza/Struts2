@@ -23,8 +23,10 @@ public class ActionProveedor extends ActionSupport {
     private List<BeanTerritorio> ListarTerritorio;
     private String accion;
     private String mensaje;
-    private int codigo_territorio; /*A esta variable lo llamamos desde la vista registrar proveedor y le damos el valor key devuelto desde es ListadoTerritorio*/
+    private int codigo_territorio;
 
+
+    /*A esta variable lo llamamos desde la vista registrar proveedor y le damos el valor key devuelto desde es ListadoTerritorio*/
     public List<BeanTerritorio> getListarTerritorio() {
         return ListarTerritorio;
     }
@@ -75,6 +77,53 @@ public class ActionProveedor extends ActionSupport {
                     mensaje = "Error en el metodo Registrar proveedor";
                 }
                 break;
+            case "GET":
+                proveedor = proveedorDao.Buscar(codigo);
+                if (proveedor != null) {
+                    TerritorioDao territorioDao = new TerritorioDaoImpl();
+                    ListarTerritorio = territorioDao.ListarTerritorio();
+                    if (ListarTerritorio != null) {
+                        target = "editar";
+                    } else {
+                        mensaje = "Error en el metodo ListarTerritorio";
+                    }
+                } else {
+                    mensaje = "Error en el metodo Buscar Proveedor";
+                }
+                break;
+            case "UPD":
+                proveedor = new BeanProveedor();
+                proveedor.setCodigo(codigo);
+                proveedor.setNombre(nombre);
+                proveedor.setDireccion(direccion);
+                proveedor.setCodigo_territorio(codigo_territorio);
+                proveedor.setTelefono(telefono);
+                proveedor.setEmail(email);
+                mensaje = proveedorDao.Editar(proveedor);
+                if (mensaje == null) {
+                    lista = proveedorDao.listarProvedor();
+                    if (lista != null) {
+                        target = "lista";
+                    } else {
+                        mensaje = "Error en el metodo listar proveedor";
+                    }
+                } else {
+                    mensaje = "Error en el metodo Editar Proveedor";
+                }
+                break;
+            case "DEL":
+                mensaje = proveedorDao.Eliminar(codigo);
+                if (mensaje == null) {
+                    lista = proveedorDao.listarProvedor();
+                    if (lista != null) {
+                        target = "lista";
+                    } else {
+                        mensaje = "Error en el metodo listar proveedor";
+                    }
+                } else {
+                    mensaje = "Error en el metodo Eliminar Proveedor";
+                }
+                break;
             default:
                 mensaje = "Error en la condicional switch del action proveedor";
                 break;
@@ -101,8 +150,7 @@ public class ActionProveedor extends ActionSupport {
         }
         return target;
     }
-   
-    
+
     @SkipValidation
     public String mostrarDistritos() {
         String ir = "error";
@@ -111,7 +159,7 @@ public class ActionProveedor extends ActionSupport {
         if (ListarTerritorio != null) {
             ir = "lista";
         } else {
-            mensaje = "Error en el metodo ListarTerritorio del action proveedor";
+            mensaje = "Error en el metodo ListarTerritorio";
         }
         return ir;
     }

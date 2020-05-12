@@ -20,7 +20,7 @@ public interface ProveedorDao {
 
     public BeanProveedor Buscar(int codigo);
 
-    public String Editar(int codigo);
+    public String Editar(BeanProveedor proveedor);
 
     public String Eliminar(int codigo);
 }

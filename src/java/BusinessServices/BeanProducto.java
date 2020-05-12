@@ -31,19 +31,22 @@ public class BeanProducto implements Serializable {
         this.preciounitario = preciounitario;
     }
 
-    public BeanProducto() {
-    }
-
-    public BeanProducto(String nombre, int idcategoria, int idproveedor, int stockinicial, int stockminimo, String codigobarra, double preciounitario) {
+    public BeanProducto(int codigo, String nombre, int idcategoria, int idproveedor, int stockinicial, int stockminimo, String codigobarra, Date fechaven, double preciounitario) {
+        this.codigo = codigo;
         this.nombre = nombre;
         this.idcategoria = idcategoria;
         this.idproveedor = idproveedor;
         this.stockinicial = stockinicial;
         this.stockminimo = stockminimo;
         this.codigobarra = codigobarra;
+        this.fechaven = fechaven;
         this.preciounitario = preciounitario;
     }
 
+    public BeanProducto() {
+    }
+
+    
     public int getCodigo() {
         return codigo;
     }

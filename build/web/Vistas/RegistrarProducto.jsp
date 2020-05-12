@@ -14,12 +14,14 @@
     </head>
     <body>
         <h1>Registrar Producto</h1>
+        <s:fielderror>Errores</s:fielderror>
         <s:url action="BuscarProveedor" var="urlQRY">
             <s:param name="accion">QRY</s:param>
         </s:url>
         <s:a href="%{urlQRY}"><input type="button" value="Agregar proveedor"></s:a>
         <s:form action="producto">
             <s:hidden name="accion" value="INS"></s:hidden>
+            <s:hidden name="estado" value="true"></s:hidden>
             <s:textfield name="nombre" label="Nombre"></s:textfield>
             <s:select list="listarcategoria" listKey="codigocategoria" listValue="categoria" name="codigo_categoria" label="Categoria"></s:select>
             <s:textfield name="idproveedor" label="Proveedor" value="%{idproveedor}"></s:textfield>
