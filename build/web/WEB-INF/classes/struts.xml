@@ -3,9 +3,9 @@
      "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-    <constant name="struts.devMode" value="true">  
+    <constant name="struts.devMode" value="false">  
     </constant>
-    <package name="Actions"  extends="struts-default">
+    <package name="Actions"  extends="struts-default,json-default">
         <action name="proveedor"  class="Actions.ActionProveedor" method="execute">
             <result name="lista">/Vistas/ListarProveedor.jsp</result>
             <result name="error">/Vistas/respuesta.jsp</result>
@@ -15,19 +15,45 @@
             <result name="lista">/Vistas/RegistrarProveedor.jsp</result>
             <result name="error">/Vistas/respuesta.jsp</result>
         </action>
-        <action name="producto" class="Actions.ActionProducto" method="execute">
-             <result name="lista">/Vistas/ListarProducto.jsp</result>
-             <result name="editar">/Vistas/ActualizarProducto.jsp</result>
-             <result name="registrar">/Vistas/RegistrarProducto.jsp</result>
-             <result name="error">/Vistas/respuesta.jsp</result>
-             <result name="input">/Vistas/RegistrarProducto.jsp</result>
-        </action>
         <action name="BuscarProveedor" class="Actions.ActionProveedor" method="ListarProveedor">
             <result name="lista">/Vistas/BuscarProveedor.jsp</result>
+        </action>
+        <action name="ListarProducto" class="Actions.ActionProducto" method="ListarProducto">
+            <result name="lista">/Vistas/ListarProducto.jsp</result>
+            <result name="error">/Vistas/respuesta.jsp</result>
+        </action>
+        <action name="ListarCategoria" class="Actions.ActionProducto" method="ListarCategoria">
+            <result name="lista" type="json"></result>
+            <result name="error">/Vistas/respuesta.jsp</result>
+        </action>
+        <action name="RegistrarProducto" class="Actions.ActionProducto" method="RegistrarProducto">
+            <result name="lista">/Vistas/ListarProducto.jsp</result>
+            <result name="input">/Vistas/RegistrarProducto.jsp</result>
+            <result name="error">/Vistas/respuesta.jsp</result>
+        </action>
+        <action name="EliminarProducto" class="Actions.ActionProducto" method="EliminarProducto">
+            <result name="lista">/Vistas/ListarProducto.jsp</result>
+            <result name="error">/Vistas/respuesta.jsp</result>
+        </action>
+        <action name="EditarProducto" class="Actions.ActionProducto" method="EditarProducto">
+            <result name="lista">/Vistas/ListarProducto.jsp</result>
+            <result name="error">/Vistas/respuesta.jsp</result>
+        </action>
+        <action name="ObtenerProducto" class="Actions.ActionProducto" method="ObtenerProducto">
+            <result name="editar">/Vistas/ActualizarProducto.jsp</result>
+            <result name="error">/Vistas/respuesta.jsp</result>
         </action>
         <action name="MostrarCodigoProveedor" class="Actions.ActionProducto" method="MostrarCodigoProveedor">
             <result name="lista">/Vistas/RegistrarProducto.jsp</result>
             <result name="error">/Vistas/respuesta.jsp</result>
+        </action>
+        <action name="validar" class="Actions.ActionLogin" method="login">
+            <result name="success">/Vistas/index.jsp</result>
+            <result name="error">/Vistas/respuesta.jsp</result>
+            <result name="input">/Vistas/Login.jsp</result>
+        </action>
+        <action name="agregar">
+            <result>/Vistas/RegistrarProducto.jsp</result>
         </action>
         <action name="inicio" >
             <result>/Vistas/index.jsp</result>

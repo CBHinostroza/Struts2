@@ -47,14 +47,14 @@
                         <td><s:property value="fechaven"></s:property></td>
                         <td><s:property value="preciounitario"></s:property></td>
                             <td>
-                            <s:url action="producto" var="urlUPD">
+                            <s:url action="ObtenerProducto" var="urlUPD">
                                 <s:param name="accion">GET</s:param>
                                 <s:param name="codigo">
                                     <s:property value="codigo"></s:property>
                                 </s:param>
                             </s:url>
                             <s:a href="%{urlUPD}"><input type="button" value="Editar"></s:a>
-                            <s:url action="producto" var="urlDEL">
+                            <s:url action="EliminarProducto" var="urlDEL">
                                 <s:param name="accion">DEL</s:param>
                                 <s:param name="codigo">
                                     <s:property value="codigo"></s:property>
@@ -68,9 +68,7 @@
             <tfoot>
                 <tr>
                     <td>
-                        <s:url action="producto" var="irRegistro">
-                            <s:param name="accion">INS</s:param>
-                            <s:param name="estado">false</s:param>
+                        <s:url action="agregar" var="irRegistro">
                         </s:url>
                         <s:a href="%{irRegistro}"><input type="button" value="Agregar"></s:a>
                     </td>

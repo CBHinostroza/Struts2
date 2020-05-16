@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!DOCTYPE validators PUBLIC
+        "-//Apache Struts//XWork Validator 1.0.3//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+    <field name="nombre">
+        <field-validator type="requiredstring">
+            <param name="trim">true</param>
+            <message>Ingrese un nombre</message>
+        </field-validator>
+    </field>
+    <field name="codigo_categoria">
+        <field-validator type="int">
+            <param name="min">1</param>
+            <message>Seleccione una categoria</message>
+        </field-validator>
+    </field>
+    <field name="idproveedor">
+        <field-validator type="int">
+            <param name="min">1</param>
+            <message>Ingrese un proveedor</message>
+        </field-validator>
+    </field>
+    <field name="stockinicial">
+        <field-validator type="conversion">
+            <param name="trim">true</param>
+            <message>Solo numeros enteros</message>
+        </field-validator>
+        <field-validator type="int">
+            <param name="min">1</param>
+            <message>Ingrese el Stock Inicial</message>
+        </field-validator>
+    </field>
+    <field name="stockminimo">
+        <field-validator type="conversion">
+            <param name="trim">true</param>
+            <message>Solo numeros enteros</message>
+        </field-validator>
+        <field-validator type="int">
+            <param name="min">1</param>
+            <message>Ingrese el Stock Minimo</message>
+        </field-validator>
+    </field>
+    <field name="codigobarra">
+        <field-validator type="requiredstring">
+            <param name="trim">true</param>
+            <message>Ingrese el codigo de barra.</message>
+        </field-validator>
+    </field>
+    <field name="fechaven">
+        <field-validator type="required">
+              <message key="Debe ingresar una fecha" />
+         </field-validator>
+         <!--
+        <field-validator type="date">
+            <param name = "min">05/05/2020</param>  
+            <message> La fecha de vencimiento debe ser mayor a ${min}</message>  
+        </field-validator>-->
+        <field-validator type="date">
+            <param name = "minExpression">${minDate}</param>  
+            <message> La fecha de vencimiento debe ser mayor a ${min}</message>  
+        </field-validator>
+    </field>
+</validators>

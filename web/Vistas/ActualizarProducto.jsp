@@ -14,7 +14,7 @@
     </head>
     <body>
         <h1>Editar Producto</h1>
-        <s:form action="producto">
+        <s:form action="EditarProducto">
             <s:hidden name="accion" value="UPD"></s:hidden>
             <s:hidden name="codigo" value="%{producto.codigo}"></s:hidden>
             <s:textfield name="nombre" label="Nombre" value="%{producto.nombre}"></s:textfield>

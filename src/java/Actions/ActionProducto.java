@@ -12,10 +12,8 @@ import DataService.Despachadores.Impl.CategoriaDaoImpl;
 import DataService.Despachadores.Impl.ProductoDaoImpl;
 import DataService.Despachadores.ProductoDao;
 import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.validator.annotations.DateRangeFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
-import java.sql.Date;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 
@@ -25,6 +23,22 @@ import org.apache.struts2.interceptor.validation.SkipValidation;
  */
 public class ActionProducto extends ActionSupport {
 
+//    SimpleDateFormat formato = new SimpleDateFormat("dd/mm/yyyy");
+    
+    /*Esta variable minDate lo usario para tomar la fecha actual del sistema
+    y llamarlo mediante una expression OGNL desde el actionproducto-validation.xml*/
+    
+    private Date minDate = new java.util.Date();
+
+    public Date getMinDate() {
+        return minDate;
+    }
+
+    public void setMinDate(Date minDate) {
+        this.minDate = minDate;
+    }
+
+    
     private int codigo_categoria;
 
     public int getCodigo_categoria() {
@@ -39,7 +53,6 @@ public class ActionProducto extends ActionSupport {
         return nombre;
     }
 
-    @RequiredStringValidator(message = "Ingrese el nombre")
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -87,6 +100,7 @@ public class ActionProducto extends ActionSupport {
     public String getCodigobarra() {
         return codigobarra;
     }
+
 
     public void setCodigobarra(String codigobarra) {
         this.codigobarra = codigobarra;
@@ -173,120 +187,147 @@ public class ActionProducto extends ActionSupport {
         this.listarcategoria = listarcategoria;
     }
 
-    private boolean estado;
-
-    public boolean isEstado() {
-        return estado;
-    }
-
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
-
+//    @Override
+//    public void validate() {
+//        if (getNombre().equals("")) {
+//            addFieldError("nombre", "El nombre es obligatorio.");
+//        }
+//    }
+//    @InputConfig(methodName="ListarCategoria")
     @SkipValidation
-    @Override
-    public String execute() throws Exception {
-
+    public String ListarProducto() {
         String target = "error";
         ProductoDao productoDao = new ProductoDaoImpl();
-//        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
-//        java.sql.Date fechasql = null;
-        switch (accion) {
-            case "QRY":
+        if (accion.equals("QRY")) {
+            lista = productoDao.listarProducto();
+            if (lista != null) {
+                target = "lista";
+            } else {
+                mensaje = "Error en el metodo listar producto";
+            }
+        }
+        return target;
+
+    }
+    @SkipValidation
+    public String ListarCategoria() {
+        String ir = "error";
+        CategoriaDao categoriaDao = new CategoriaDaoImpl();
+        listarcategoria = categoriaDao.listar();
+        if (listarcategoria != null) {
+            ir = "lista";
+        } else {
+            mensaje = "Error en el metodo ListarTerritorio del action proveedor";
+        }
+
+        return ir;
+    }
+
+//   @InputConfig(methodName="ListarCategoria")
+//    @SkipValidation
+    public String RegistrarProducto() {
+        String target = "error";
+        ProductoDao productoDao = new ProductoDaoImpl();
+        if (accion.equals("INS")) {
+            producto = new BeanProducto();
+            producto.setNombre(nombre);
+            producto.setIdcategoria(codigo_categoria);
+            producto.setIdproveedor(idproveedor);
+            producto.setStockinicial(stockinicial);
+            producto.setStockminimo(stockminimo);
+            producto.setCodigobarra(codigobarra);
+            
+            java.sql.Date fechasql = null;
+            fechasql = new java.sql.Date(fechaven.getTime());
+            
+            producto.setFechaven(fechasql);
+            producto.setPreciounitario(preciounitario);
+            mensaje = productoDao.Registrar(producto);
+            if (mensaje == null) {
                 lista = productoDao.listarProducto();
                 if (lista != null) {
                     target = "lista";
                 } else {
                     mensaje = "Error en el metodo listar producto";
                 }
-                break;
-            case "INS":
-                if (estado == true) { /*SI EL ESTADO ES TRUE VA REGISTRAR UN NUEVO PROVEEDOR*/
-                    producto = new BeanProducto();
-                    producto.setNombre(nombre);
-                    producto.setIdcategoria(codigo_categoria);
-                    producto.setIdproveedor(idproveedor);
-                    producto.setStockinicial(stockinicial);
-                    producto.setStockminimo(stockminimo);
-                    producto.setCodigobarra(codigobarra);
-                    producto.setFechaven(fechaven);
-                    producto.setPreciounitario(preciounitario);
-                    mensaje = productoDao.Registrar(producto);
-                    if (mensaje == null) {
-                        lista = productoDao.listarProducto();
-                        if (lista != null) {
-                            target = "lista";
-                        } else {
-                            mensaje = "Error en el metodo listar producto";
-                        }
-                    } else {
-                        mensaje = "Error en el metodo Registrar Producto";
-                    }
-                } else {/*SI EL ESTADO ES FALSE VA MOSTRAR EL FORMULARIO REGISTRO PROVEEDOR, CON LA LISTAS DESPEGABLES*/
-                    CategoriaDao categoriaDao = new CategoriaDaoImpl();
-                    listarcategoria = categoriaDao.listar();
-                    if (listarcategoria != null) {
-                        target = "registrar";
-                    } else {
-                        mensaje = "Error en el metodo ListarTerritorio del action proveedor";
-                    }
-                }
-                break;
-            case "GET":
-                producto = productoDao.Buscar(codigo);
-                if (producto != null) {
-                    CategoriaDao categoriaDao = new CategoriaDaoImpl();
-                    listarcategoria = categoriaDao.listar();
-                    if (listarcategoria != null) {
-                        target = "editar";
-                    } else {
-                        mensaje = "Error en el metodo ListarTerritorio del action proveedor";
-                    }
-                } else {
-                    mensaje = "Error en el metodo Buscar Productoddddd";
-                }
-                break;
-            case "UPD":
-                producto = new BeanProducto();
-                producto.setCodigo(codigo);
-                producto.setNombre(nombre);
-                producto.setIdcategoria(codigo_categoria);
-                producto.setIdproveedor(idproveedor);
-                producto.setStockinicial(stockinicial);
-                producto.setStockminimo(stockminimo);
-                producto.setCodigobarra(codigobarra);
-                producto.setFechaven(fechaven);
-                producto.setPreciounitario(preciounitario);
-                mensaje = productoDao.Editar(producto);
-                if (mensaje == null) {
-                    lista = productoDao.listarProducto();
-                    if (lista != null) {
-                        target = "lista";
-                    } else {
-                        mensaje = "Error en el metodo listar producto";
-                    }
-                } else {
-                    mensaje = "Error en el metodo Editar Producto";
-                }
-                break;
-            case "DEL":
-                mensaje = productoDao.Eliminar(codigo);
-                if (mensaje == null) {
-                    lista = productoDao.listarProducto();
-                    if (lista != null) {
-                        target = "lista";
-                    } else {
-                        mensaje = "Error en el metodo listar producto";
-                    }
-                } else {
-                    mensaje = "Error en el metodo Eliminar Producto";
-                }
-                break;
-            default:
-                mensaje = "Error en la condicional switch";
-                break;
+            } else {
+                mensaje = "Error en el metodo Registrar Producto";
+            }
         }
 
+        return target;
+    }
+
+    @SkipValidation
+    public String EliminarProducto() {
+        String target = "error";
+        ProductoDao productoDao = new ProductoDaoImpl();
+        if (accion.equals("DEL")) {
+            mensaje = productoDao.Eliminar(codigo);
+            if (mensaje == null) {
+                lista = productoDao.listarProducto();
+                if (lista != null) {
+                    target = "lista";
+                } else {
+                    mensaje = "Error en el metodo listar producto";
+                }
+            } else {
+                mensaje = "Error en el metodo Eliminar Producto";
+            }
+        }
+        return target;
+    }
+
+    @SkipValidation
+    public String EditarProducto() {
+        String target = "error";
+        ProductoDao productoDao = new ProductoDaoImpl();
+        if (accion.equals("UPD")) {
+            producto = new BeanProducto();
+            producto.setCodigo(codigo);
+            producto.setNombre(nombre);
+            producto.setIdcategoria(codigo_categoria);
+            producto.setIdproveedor(idproveedor);
+            producto.setStockinicial(stockinicial);
+            producto.setStockminimo(stockminimo);
+            producto.setCodigobarra(codigobarra);
+            producto.setFechaven((java.sql.Date) fechaven);
+            producto.setPreciounitario(preciounitario);
+            mensaje = productoDao.Editar(producto);
+            if (mensaje == null) {
+                lista = productoDao.listarProducto();
+                if (lista != null) {
+                    CategoriaDao categoriaDao = new CategoriaDaoImpl();
+        listarcategoria = categoriaDao.listar();
+                    target = "lista";
+                } else {
+                    mensaje = "Error en el metodo listar producto";
+                }
+            } else {
+                mensaje = "Error en el metodo Editar Producto";
+            }
+        }
+        return target;
+    }
+
+    @SkipValidation
+    public String ObtenerProducto() {
+        String target = "error";
+        ProductoDao productoDao = new ProductoDaoImpl();
+        if (accion.equals("GET")) {
+            producto = productoDao.Buscar(codigo);
+            if (producto != null) {
+                CategoriaDao categoriaDao = new CategoriaDaoImpl();
+                listarcategoria = categoriaDao.listar();
+                if (listarcategoria != null) {
+                    target = "editar";
+                } else {
+                    mensaje = "Error en el metodo ListarTerritorio del action proveedor";
+                }
+            } else {
+                mensaje = "Error en el metodo Buscar Productoddddd";
+            }
+        }
         return target;
     }
 
@@ -305,20 +346,6 @@ public class ActionProducto extends ActionSupport {
         return ir;
     }
 
-//    @SkipValidation
-//    public String ListarCategoria() {
-//        String ir = "error";
-//        CategoriaDao categoriaDao = new CategoriaDaoImpl();
-//        listarcategoria = categoriaDao.listar();
-//        if (listarcategoria != null) {
-//            ir = "lista";
-//        } else {
-//            mensaje = "Error en el metodo ListarTerritorio del action proveedor";
-//        }
-//
-//        return ir;
-//    }
 
-  
-
+    
 }
