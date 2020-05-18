@@ -13,6 +13,23 @@ public class BeanUsuario  implements Serializable {
     private String correo;
     private Date utlima_sesion;
     private int cod_tipo;
+    private String tipo;
+
+    public BeanUsuario(int codigo, String nombre, String correo, Date utlima_sesion, String tipo) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.correo = correo;
+        this.utlima_sesion = utlima_sesion;
+        this.tipo = tipo;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
     public BeanUsuario(int codigo, String nombre, String contraseña, String correo, Date utlima_sesion, int cod_tipo) {
         this.codigo = codigo;

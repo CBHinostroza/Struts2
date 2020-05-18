@@ -10,3 +10,11 @@ function alerta()
     }
 
 }
+
+function Limpiar() {
+    document.getElementById("txtnombre").value = "";
+    document.getElementById("txtpassword").value = "";
+    document.getElementById("txtconfirm").value = "";
+    document.getElementById("txtcorreo").value = "";
+    document.getElementById("cbotipo").value = 0;
+}

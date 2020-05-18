@@ -68,7 +68,7 @@
             <tfoot>
                 <tr>
                     <td>
-                        <s:url action="agregar" var="irRegistro">
+                        <s:url action="agregarproducto" var="irRegistro">
                         </s:url>
                         <s:a href="%{irRegistro}"><input type="button" value="Agregar"></s:a>
                     </td>

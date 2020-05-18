@@ -23,7 +23,6 @@ import org.apache.struts2.interceptor.validation.SkipValidation;
  */
 public class ActionProducto extends ActionSupport {
 
-//    SimpleDateFormat formato = new SimpleDateFormat("dd/mm/yyyy");
     
     /*Esta variable minDate lo usario para tomar la fecha actual del sistema
     y llamarlo mediante una expression OGNL desde el actionproducto-validation.xml*/

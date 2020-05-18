@@ -6,6 +6,11 @@
     <constant name="struts.devMode" value="false">  
     </constant>
     <package name="Actions"  extends="struts-default,json-default">
+        <action name="validar" class="Actions.ActionLogin" method="login">
+            <result name="success">/Vistas/Menu.jsp</result>
+            <result name="error">/Vistas/respuesta.jsp</result>
+            <result name="input">/Vistas/Login.jsp</result>
+        </action>
         <action name="proveedor"  class="Actions.ActionProveedor" method="execute">
             <result name="lista">/Vistas/ListarProveedor.jsp</result>
             <result name="error">/Vistas/respuesta.jsp</result>
@@ -47,16 +52,27 @@
             <result name="lista">/Vistas/RegistrarProducto.jsp</result>
             <result name="error">/Vistas/respuesta.jsp</result>
         </action>
-        <action name="validar" class="Actions.ActionLogin" method="login">
-            <result name="success">/Vistas/index.jsp</result>
-            <result name="error">/Vistas/respuesta.jsp</result>
-            <result name="input">/Vistas/Login.jsp</result>
-        </action>
-        <action name="agregar">
+        <action name="agregarproducto">
             <result>/Vistas/RegistrarProducto.jsp</result>
         </action>
+        <action name="agregarusuario">
+            <result>/Vistas/RegistrarUsuario.jsp</result>
+        </action>
         <action name="inicio" >
-            <result>/Vistas/index.jsp</result>
+            <result>/Vistas/Menu.jsp</result>
+        </action>
+        <action name="ListarTipoUsuario" class="Actions.ActionUsuario" method="ListarTipoUsuario">
+            <result name="success" type="json"></result>
+            <result name="error">/Vistas/respuesta.jsp</result>
+        </action>
+        <action name="RegistrarUsuario" class="Actions.ActionUsuario" method="RegistrarUsuario">
+            <result name="registrar">/Vistas/ListarUsuarios.jsp</result>
+            <result name="input">/Vistas/RegistrarUsuario.jsp</result>     
+            <result name="error">/Vistas/respuesta.jsp</result>
+        </action>
+        <action name="ListarUsuario" class="Actions.ActionUsuario" method="ListarUsuario">
+            <result name="lista">/Vistas/ListarUsuarios.jsp</result>
+            <result name="error">/Vistas/respuesta.jsp</result>
         </action>
     </package>
 </struts>

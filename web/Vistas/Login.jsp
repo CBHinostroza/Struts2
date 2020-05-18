@@ -9,8 +9,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <s:form action="validar">
-            <!--<shidden name="accion" value="ingresar"></shidden>-->
+        <s:form action="validar" style="margin: auto; width: 400px">
             <s:textfield name="username" label="Usuario"></s:textfield>
             <s:password name="password" label="Contraseña"></s:password>
             <s:submit value="Aceptar"></s:submit>
