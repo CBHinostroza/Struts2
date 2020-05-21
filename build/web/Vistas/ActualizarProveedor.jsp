@@ -14,7 +14,7 @@
     </head>
     <body>
          <h1>Editar Producto</h1>
-        <s:form action="proveedor">
+        <s:form action="proveedor" method="post">
             <s:hidden name="accion" value="UPD"></s:hidden>
             <s:hidden name="codigo" value="%{proveedor.codigo}"></s:hidden>
             <s:textfield name="nombre" label="Nombre" value="%{proveedor.nombre}"></s:textfield>

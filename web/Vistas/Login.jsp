@@ -9,10 +9,23 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <s:form action="validar" style="margin: auto; width: 400px">
-            <s:textfield name="username" label="Usuario"></s:textfield>
-            <s:password name="password" label="Contraseña"></s:password>
-            <s:submit value="Aceptar"></s:submit>
+        <s:form action="validar" style="margin: auto; width: 400px" theme="simple" method="post">
+            <table>
+                <tr>
+                    <td><s:textfield name="username" placeholder="Nombre"></s:textfield></td> 
+                    </tr>
+                    <tr>
+                        <td><s:password name="password" placeholder="Password"></s:password></td>
+                    </tr>
+                    <tr>
+                        <td>
+                        <s:actionerror></s:actionerror></td>
+                    </tr>
+                    <tr>
+                        <td><s:submit style="width:100%" value="Aceptar"></s:submit></td>
+                    </tr>
+                </table>
+
         </s:form>
     </body>
 </html>

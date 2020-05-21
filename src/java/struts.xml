@@ -43,6 +43,7 @@
         <action name="EditarProducto" class="Actions.ActionProducto" method="EditarProducto">
             <result name="lista">/Vistas/ListarProducto.jsp</result>
             <result name="error">/Vistas/respuesta.jsp</result>
+            <result name="input">/Vistas/ActualizarProducto.jsp</result>
         </action>
         <action name="ObtenerProducto" class="Actions.ActionProducto" method="ObtenerProducto">
             <result name="editar">/Vistas/ActualizarProducto.jsp</result>
@@ -72,6 +73,19 @@
         </action>
         <action name="ListarUsuario" class="Actions.ActionUsuario" method="ListarUsuario">
             <result name="lista">/Vistas/ListarUsuarios.jsp</result>
+            <result name="error">/Vistas/respuesta.jsp</result>
+        </action>
+         <action name="BuscarUsuario" class="Actions.ActionUsuario" method="BuscarUsuario">
+            <result name="success">/Vistas/ActualizarUsuario.jsp</result>
+            <result name="error">/Vistas/respuesta.jsp</result>
+        </action>
+         <action name="EditarUsuario" class="Actions.ActionUsuario" method="EditarUsuario">
+            <result name="success">/Vistas/ListarUsuarios.jsp</result>
+            <result name="input">/Vistas/ActualizarUsuario.jsp</result>
+            <result name="error">/Vistas/respuesta.jsp</result>
+        </action>
+        <action name="EliminarUsuario" class="Actions.ActionUsuario" method="EliminarUsuario">
+            <result name="success">/Vistas/ListarUsuarios.jsp</result>
             <result name="error">/Vistas/respuesta.jsp</result>
         </action>
     </package>

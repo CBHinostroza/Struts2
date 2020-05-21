@@ -4,12 +4,17 @@ import BusinessServices.BeanUsuario;
 import DataService.Despachadores.Impl.UsuarioDaoImpl;
 import DataService.Despachadores.UsuarioDao;
 import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
+import java.util.Map;
 
 
-public class ActionLogin extends ActionSupport {
+
+public class ActionLogin extends ActionSupport  {
 
 
+//
+//    
+ 
+    
     private BeanUsuario usuario;
     private String accion;
     private String username;
@@ -36,7 +41,7 @@ public class ActionLogin extends ActionSupport {
         return username;
     }
 
-    @RequiredStringValidator(message = "Ingrese el usuario")
+    
     public void setUsername(String username) {
         this.username = username;
     }
@@ -45,7 +50,7 @@ public class ActionLogin extends ActionSupport {
         return password;
     }
 
-    @RequiredStringValidator(message = "Ingrese el password")
+    
     public void setPassword(String password) {
         this.password = password;
     }
@@ -58,8 +63,21 @@ public class ActionLogin extends ActionSupport {
         this.mensaje = mensaje;
     }
 
+    @Override
+    public void validate(){
+        if(getUsername().equals("") && getPassword().equals("")){
+            addActionError("Ingrese los datos");
+        }
+        else if(getUsername().equals("")){
+            addActionError("Ingrese el usuario");
+        }
+        else if(getPassword().equals("")){
+            addActionError("Ingrese el password");
+        }
+    }
     
     public String login() {
+//        clearActionErrors();
         UsuarioDao usuarioDao = new UsuarioDaoImpl();
         String target = "error";
         usuario = new BeanUsuario();
@@ -74,7 +92,8 @@ public class ActionLogin extends ActionSupport {
                 target = "success";
                 break;
             case 10:
-                mensaje = "Password incorrecto";
+                addActionError("Usuario/Password incorrectos");
+                target = "input";
                 break;
             default:
                 mensaje = "Usuario no encontrado";
@@ -84,8 +103,7 @@ public class ActionLogin extends ActionSupport {
         return target;
     }
 
-   
-
+  
 
   
 }

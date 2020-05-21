@@ -18,3 +18,7 @@ function Limpiar() {
     document.getElementById("txtcorreo").value = "";
     document.getElementById("cbotipo").value = 0;
 }
+
+function() {
+    document.getElementById("username").attrNode("placeholder","some");
+}

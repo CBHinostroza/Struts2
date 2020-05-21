@@ -51,11 +51,6 @@
         <field-validator type="required">
               <message key="Debe ingresar una fecha" />
          </field-validator>
-         <!--
-        <field-validator type="date">
-            <param name = "min">05/05/2020</param>  
-            <message> La fecha de vencimiento debe ser mayor a ${min}</message>  
-        </field-validator>-->
         <field-validator type="date">
             <param name = "minExpression">${minDate}</param>  
             <message> La fecha de vencimiento debe ser mayor a ${min}</message>  

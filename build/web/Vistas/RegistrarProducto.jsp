@@ -21,7 +21,7 @@
         </s:url>
         <s:a href="%{urlQRY}"><input type="button" value="Agregar proveedor"></s:a>
        
-        <s:form action="RegistrarProducto" theme="">
+        <s:form action="RegistrarProducto" theme="" method="post">
             <s:hidden name="accion" value="INS"></s:hidden>
             <s:textfield name="nombre" label="Nombre" ></s:textfield>
             <s:url action="ListarCategoria" var="urlCboCategoria"></s:url>

@@ -1,7 +1,7 @@
 package BusinessServices;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 
 public class BeanProducto implements Serializable {
@@ -17,6 +17,27 @@ public class BeanProducto implements Serializable {
     private int stockminimo;
     private String codigobarra;
     private Date fechaven;
+    private String fechaven2;
+
+    public String getFechaven2() {
+        return fechaven2;
+    }
+
+    public void setFechaven2(String fechaven2) {
+        this.fechaven2 = fechaven2;
+    }
+
+    public BeanProducto(int codigo, String nombre, int idcategoria, int idproveedor, int stockinicial, int stockminimo, String codigobarra, String fechaven2, double preciounitario) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.idcategoria = idcategoria;
+        this.idproveedor = idproveedor;
+        this.stockinicial = stockinicial;
+        this.stockminimo = stockminimo;
+        this.codigobarra = codigobarra;
+        this.fechaven2 = fechaven2;
+        this.preciounitario = preciounitario;
+    }
     private double preciounitario;
 
     public BeanProducto(int codigo, String nombre, String nombrecategoria, String nombreproveedor, int stockinicial, Date fechaRegistro, int stockminimo, String codigobarra, Date fechaven, double preciounitario) {

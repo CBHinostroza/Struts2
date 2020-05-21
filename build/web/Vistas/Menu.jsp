@@ -18,7 +18,7 @@
         <s:url action="proveedor" var="urlQRY">
             <s:param name="accion">QRY</s:param>
         </s:url>
-            <s:a href="%{urlQRY}"><input type="button" value="Proveedores"></s:a>
+        <s:a href="%{urlQRY}" ><input type="button" value="Proveedores"></s:a>
         <s:url action="ListarProducto" var="urlQRY">
             <s:param name="accion" >QRY</s:param>
         </s:url>

@@ -13,6 +13,7 @@ import org.apache.struts2.interceptor.validation.SkipValidation;
 
 public class ActionUsuario extends ActionSupport {
 
+    private int codigo;
     private int codtipo;
     private String correo;
     private List<BeanTipoUsuario> listatipo;
@@ -22,11 +23,19 @@ public class ActionUsuario extends ActionSupport {
     private String username;
     private String password;
 
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
     public String getUsername() {
         return username;
     }
 
-    @RequiredStringValidator( message = "Ingrese el nombre")
+//    @RequiredStringValidator(message = "Ingrese el nombre")
     public void setUsername(String username) {
         this.username = username;
     }
@@ -34,8 +43,8 @@ public class ActionUsuario extends ActionSupport {
     public String getPassword() {
         return password;
     }
-    
-    @RequiredStringValidator( message = "Ingrese el password")
+
+//    @RequiredStringValidator(message = "Ingrese el password")
     public void setPassword(String password) {
         this.password = password;
     }
@@ -108,26 +117,24 @@ public class ActionUsuario extends ActionSupport {
         this.confirm_password = confirm_password;
     }
 //
-//    @Override
-//    public void validate() {
-//
-//        if (getUsername().equals("")) {
-//            addFieldError("username", getText("Ingrese el nombre"));
-//        } else if (getPassword().equals("")) {
-//            addFieldError("password", "Ingrese la clave");
-//        } else if (getCorreo().equals("")) {
-//            addFieldError("correo", "Ingrese el correo");
-//        } else if (getCodtipo() == 0) {
-//            addFieldError("listatipo", "Seleccione el tipo");
-//        }
-//        if (!getConfirm_password().equals(getPassword())) {
-//            addFieldError("confirm_password", "Contraseñas no coinciden");
-//        }
-//
-//    }
 
-    
+    @Override
+    public void validate() {
 
+        if (getUsername().equals("")) {
+            addFieldError("username", getText("Ingrese el nombre"));
+        } else if (getPassword().equals("")) {
+            addFieldError("password", "Ingrese la clave");
+        } else if (getCorreo().equals("")) {
+            addFieldError("correo", "Ingrese el correo");
+        } else if (getCodtipo() == 0) {
+            addFieldError("listatipo", "Seleccione el tipo");
+        }
+        if (!getConfirm_password().equals(getPassword())) {
+            addFieldError("confirm_password", "Contraseñas no coinciden");
+        }
+
+    }
 
     @SkipValidation//PASAR VALIDACION
     public String ListarTipoUsuario() throws Exception {
@@ -171,6 +178,45 @@ public class ActionUsuario extends ActionSupport {
     }
 
     @SkipValidation
+    public String BuscarUsuario() {
+        String target = "error";
+        UsuarioDao usuarioDao = new UsuarioDaoImpl();
+        if (accion.equals("GET")) {
+            usuario = usuarioDao.Buscar(codigo);
+            if (usuario != null) {
+                target = "success";
+            } else {
+                mensaje = "Error en el metodo Buscar Usuario";
+            }
+        }
+        return target;
+    }
+
+    @SkipValidation
+    public String EditarUsuario() throws Exception {
+        usuario = new BeanUsuario();
+        String target = "error";
+        UsuarioDao usuariodao = new UsuarioDaoImpl();
+        if (accion.equals("UPD")) {
+            usuario.setCodigo(codigo);
+            usuario.setNombre(username);
+            usuario.setContraseña(password);
+            usuario.setCorreo(correo);
+            usuario.setCod_tipo(codtipo);
+            mensaje = usuariodao.EditarUsuario(usuario);
+            if (mensaje == null) {
+                listausuario = usuariodao.ListarUsuarios();
+                if (listausuario != null) {
+                    target = "success";
+                } else {
+                    mensaje = "Error en metodo listar usuario";
+                }
+            }
+        }
+        return target;
+    }
+
+    @SkipValidation
     public String ListarUsuario() throws Exception {
         UsuarioDao usuarioDao = new UsuarioDaoImpl();
         String target = "error";
@@ -180,6 +226,24 @@ public class ActionUsuario extends ActionSupport {
                 target = "lista";
             } else {
                 mensaje = "Error en metodo listar usuario";
+            }
+        }
+        return target;
+    }
+
+    @SkipValidation
+    public String EliminarUsuario() throws Exception {
+        String target = "error";
+        UsuarioDao usuarioDao = new UsuarioDaoImpl();
+        if (accion.equals("DEL")) {
+            mensaje = usuarioDao.EliminarUsuario(codigo);
+            if (mensaje == null) {
+                listausuario = usuarioDao.ListarUsuarios();
+                if (listausuario != null) {
+                    target = "success";
+                } else {
+                    mensaje = "Error en metodo listar usuario";
+                }
             }
         }
         return target;

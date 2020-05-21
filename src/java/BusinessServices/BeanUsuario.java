@@ -4,7 +4,7 @@ package BusinessServices;
 import java.io.Serializable;
 import java.sql.Date;
 
-public class BeanUsuario  implements Serializable {
+public class BeanUsuario   implements Serializable {
 
     
     private int codigo;

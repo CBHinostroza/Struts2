@@ -15,7 +15,7 @@
     <body>
         <s:fielderror/>
         <h1>Registro Proveedor</h1>
-        <s:form action="proveedor">
+        <s:form action="proveedor" method="post">
             <s:hidden name="accion" value="INS"></s:hidden>
             <s:textfield name="nombre" label="Nombre"></s:textfield>
             <s:textfield name="direccion" label="Direccion"></s:textfield>

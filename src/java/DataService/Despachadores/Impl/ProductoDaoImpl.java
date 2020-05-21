@@ -10,6 +10,7 @@ import DataService.Despachadores.ProductoDao;
 import DataService.Despachadores.conexion.ConectaDB;
 import com.mysql.jdbc.CallableStatement;
 import com.mysql.jdbc.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -67,7 +68,6 @@ public class ProductoDaoImpl implements ProductoDao {
         cn = ConectaDB.conectar();
         String sql = "call sp_RegistroProducto(?,?,?,?,?,?,?,?)";
         try {
-
             cstm = (CallableStatement) cn.prepareCall(sql);
             cstm.setString(1, producto.getNombre());
             cstm.setInt(2, producto.getIdcategoria());
@@ -75,7 +75,7 @@ public class ProductoDaoImpl implements ProductoDao {
             cstm.setInt(4, producto.getStockinicial());
             cstm.setInt(5, producto.getStockminimo());
             cstm.setString(6, producto.getCodigobarra());
-            cstm.setDate(7, producto.getFechaven());
+            cstm.setDate(7, (Date) producto.getFechaven()); /*Casteado a tipo date SQL*/
             cstm.setDouble(8, producto.getPreciounitario());
             cstm.executeQuery();
 
@@ -108,7 +108,21 @@ public class ProductoDaoImpl implements ProductoDao {
             cstm.setInt(1, codigo);
             rs = cstm.executeQuery();
             while (rs.next()) { //Mientra haya una fila entonces
-                producto = new BeanProducto(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(7), rs.getString(8), rs.getDate(9), rs.getDouble(10));
+                /*EL CAMPO 9 ES DE TIPO STRING Y NO DE TIPO DATE (DEBERIA SER DATE),Y ESTO PORQUE? . . .
+                PORQUE AGREGUE UNA NUEVA VARIABLE DE TIPO STRING
+                CON NOMBRE FECHAVEN2, MÁS UN NUEVO CONSTRUCTOR PARA USAR ESA VARIABLE,
+                Y TODO ESTO LO HICE PORQUE AL MOMENTO DE OBTENER LOS DATOS PARA EDITAR,
+                EL VALOR POR DEFECTO A MOSTRAR EN EL TEXTFIELD DE TIPO DATE, ES UN VALOR STRING CON FORMATO SQL "2020-05-02",
+                Y DESDE LA VISTA ACTUALIZARPRODUCTO.JSP LLAMO AL PRODUCTO.FECHAVEN2 QUE SERIA EL CAMPO 8*/
+                producto = new BeanProducto(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getInt(5),
+                        rs.getInt(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getDouble(10));
             }
         } catch (SQLException e) {
             System.out.println("Error metodo Buscar Producto: " + e.getMessage());
@@ -131,6 +145,12 @@ public class ProductoDaoImpl implements ProductoDao {
         return producto;
     }
 
+//    public static void main(String args[]){
+//      ProductoDao productoDao = new ProductoDaoImpl();
+//////      SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+//      BeanProducto producto =  productoDao.Buscar(57);
+//      System.out.println(producto.getFechaven());
+//    }
     @Override
     public String Editar(BeanProducto producto) {
         String resultado = null;
@@ -147,7 +167,7 @@ public class ProductoDaoImpl implements ProductoDao {
             cstm.setInt(5, producto.getStockinicial());
             cstm.setInt(6, producto.getStockminimo());
             cstm.setString(7, producto.getCodigobarra());
-            cstm.setDate(8, producto.getFechaven());
+            cstm.setDate(8, (Date) producto.getFechaven());/*Casteado a tipo date SQL*/
             cstm.setDouble(9, producto.getPreciounitario());
             cstm.executeUpdate();
 

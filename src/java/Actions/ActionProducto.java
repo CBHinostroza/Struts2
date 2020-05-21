@@ -12,8 +12,8 @@ import DataService.Despachadores.Impl.CategoriaDaoImpl;
 import DataService.Despachadores.Impl.ProductoDaoImpl;
 import DataService.Despachadores.ProductoDao;
 import com.opensymphony.xwork2.ActionSupport;
+import java.util.Calendar;
 import java.util.Date;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 
@@ -23,21 +23,30 @@ import org.apache.struts2.interceptor.validation.SkipValidation;
  */
 public class ActionProducto extends ActionSupport {
 
-    
-    /*Esta variable minDate lo usario para tomar la fecha actual del sistema
+    /*Esta variable minDate lo usare para tomar la fecha actual del sistema
     y llamarlo mediante una expression OGNL desde el actionproducto-validation.xml*/
-    
-    private Date minDate = new java.util.Date();
+    private final Date minDate = new java.util.Date();
 
     public Date getMinDate() {
-        return minDate;
+        Calendar calendar = Calendar.getInstance(); //Instancio la clase calendar que es igual a la clase date de java.util
+        calendar.setTime(this.minDate); //Le indico con que fecha vamos a trabajar, en este caso tomo la fecha actual del sistema
+        calendar.add(Calendar.YEAR, 3); //Le sumo años a la fecha actual
+        return calendar.getTime(); // retorno la fecha sumada en años en formato por default (Mon May 18 22:50:29 COT 2020), struts2 ya se encarga de validar
     }
 
-    public void setMinDate(Date minDate) {
-        this.minDate = minDate;
-    }
-
-    
+    private String nombre;
+    private int idproveedor;
+    private int stockminimo;
+    private int stockinicial;
+    private Date fecharegistro;
+    private String codigobarra;
+    private Date fechaven;
+    private double preciounitario;
+    private BeanProducto producto;
+    private int codigo;
+    private List<BeanProducto> lista;
+    private String accion;
+    private String mensaje;
     private int codigo_categoria;
 
     public int getCodigo_categoria() {
@@ -54,14 +63,6 @@ public class ActionProducto extends ActionSupport {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public int getIdcategoria() {
-        return idcategoria;
-    }
-
-    public void setIdcategoria(int idcategoria) {
-        this.idcategoria = idcategoria;
     }
 
     public int getIdproveedor() {
@@ -99,7 +100,6 @@ public class ActionProducto extends ActionSupport {
     public String getCodigobarra() {
         return codigobarra;
     }
-
 
     public void setCodigobarra(String codigobarra) {
         this.codigobarra = codigobarra;
@@ -160,20 +160,6 @@ public class ActionProducto extends ActionSupport {
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
     }
-    private String nombre;
-    private int idcategoria;
-    private int idproveedor;
-    private int stockminimo;
-    private int stockinicial;
-    private Date fecharegistro;
-    private String codigobarra;
-    private Date fechaven;
-    private double preciounitario;
-    private BeanProducto producto;
-    private int codigo;
-    private List<BeanProducto> lista;
-    private String accion;
-    private String mensaje;
 
     /*Variable y metodos de acceso solo para el metodo Listar Categoria del Select List en RegistrarProducto.jsp*/
     private List<BeanCategoria> listarcategoria;
@@ -186,13 +172,7 @@ public class ActionProducto extends ActionSupport {
         this.listarcategoria = listarcategoria;
     }
 
-//    @Override
-//    public void validate() {
-//        if (getNombre().equals("")) {
-//            addFieldError("nombre", "El nombre es obligatorio.");
-//        }
-//    }
-//    @InputConfig(methodName="ListarCategoria")
+//   @InputConfig(methodName="ListarCategoria")
     @SkipValidation
     public String ListarProducto() {
         String target = "error";
@@ -208,6 +188,7 @@ public class ActionProducto extends ActionSupport {
         return target;
 
     }
+
     @SkipValidation
     public String ListarCategoria() {
         String ir = "error";
@@ -222,8 +203,6 @@ public class ActionProducto extends ActionSupport {
         return ir;
     }
 
-//   @InputConfig(methodName="ListarCategoria")
-//    @SkipValidation
     public String RegistrarProducto() {
         String target = "error";
         ProductoDao productoDao = new ProductoDaoImpl();
@@ -235,10 +214,14 @@ public class ActionProducto extends ActionSupport {
             producto.setStockinicial(stockinicial);
             producto.setStockminimo(stockminimo);
             producto.setCodigobarra(codigobarra);
-            
-            java.sql.Date fechasql = null;
-            fechasql = new java.sql.Date(fechaven.getTime());
-            
+             /*Como el dato date que traemos desde la vista es tipo java, no se va almacenar en la base de datos
+            porque necesita un tipo de dato Date SQL en su formato 1999-09-09,
+            asi que primero obtenemos el tiempo transcurrido en dias 
+            y lo guardamos en una variable de tipo Date sql, pero porque guardarlo a tipo Date SQL? si
+            ese tipo de dato FECHA VEN es un tipo de dato java.util.Date? es cierto,
+            pero lo que hace la magia es existe el casteo, en el metodo Registra Producto, el getFechaVen() esta
+            casteado a tipo de dato java.sql.Date, es de esta manera que logra guardarse en la DB*/
+            java.sql.Date fechasql = new java.sql.Date(fechaven.getTime());
             producto.setFechaven(fechasql);
             producto.setPreciounitario(preciounitario);
             mensaje = productoDao.Registrar(producto);
@@ -277,7 +260,6 @@ public class ActionProducto extends ActionSupport {
         return target;
     }
 
-    @SkipValidation
     public String EditarProducto() {
         String target = "error";
         ProductoDao productoDao = new ProductoDaoImpl();
@@ -290,14 +272,21 @@ public class ActionProducto extends ActionSupport {
             producto.setStockinicial(stockinicial);
             producto.setStockminimo(stockminimo);
             producto.setCodigobarra(codigobarra);
-            producto.setFechaven((java.sql.Date) fechaven);
+
+            /*Como el dato date que traemos desde la vista es tipo java, no se va almacenar en la base de datos
+            porque necesita un tipo de dato Date SQL en su formato 1999-09-09,
+            asi que primero obtenemos el tiempo transcurrido en dias 
+            y lo guardamos en una variable de tipo Date sql, pero porque guardarlo a tipo Date SQL? si
+            ese tipo de dato FECHA VEN es un tipo de dato java.util.Date? es cierto,
+            pero lo que hace la magia es existe el casteo, en el metodo Editar Producto, el getFechaVen() esta
+            casteado a tipo de dato java.sql.Date, es de esta manera que logra guardarse en la DB*/
+            java.sql.Date fechasql = new java.sql.Date(fechaven.getTime());
+            producto.setFechaven(fechasql);
             producto.setPreciounitario(preciounitario);
             mensaje = productoDao.Editar(producto);
             if (mensaje == null) {
                 lista = productoDao.listarProducto();
                 if (lista != null) {
-                    CategoriaDao categoriaDao = new CategoriaDaoImpl();
-        listarcategoria = categoriaDao.listar();
                     target = "lista";
                 } else {
                     mensaje = "Error en el metodo listar producto";
@@ -316,13 +305,7 @@ public class ActionProducto extends ActionSupport {
         if (accion.equals("GET")) {
             producto = productoDao.Buscar(codigo);
             if (producto != null) {
-                CategoriaDao categoriaDao = new CategoriaDaoImpl();
-                listarcategoria = categoriaDao.listar();
-                if (listarcategoria != null) {
-                    target = "editar";
-                } else {
-                    mensaje = "Error en el metodo ListarTerritorio del action proveedor";
-                }
+                target = "editar";
             } else {
                 mensaje = "Error en el metodo Buscar Productoddddd";
             }
@@ -345,6 +328,4 @@ public class ActionProducto extends ActionSupport {
         return ir;
     }
 
-
-    
 }

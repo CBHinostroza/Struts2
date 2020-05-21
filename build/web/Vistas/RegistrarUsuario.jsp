@@ -18,7 +18,7 @@
         <body>
             <h1>Registro usuario</h1>
 
-        <s:form action="RegistrarUsuario" theme="simple" style="margin: auto; width: 400px" >
+        <s:form action="RegistrarUsuario" theme="simple" style="margin: auto; width: 400px" method="post">
             <fieldset>
                 <legend>Registro Usuario</legend>
                 <s:fielderror></s:fielderror>
