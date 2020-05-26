@@ -10,7 +10,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list> 
-        <welcome-file>newjsp.jsp</welcome-file>
+        <welcome-file>/Vistas/Login.jsp</welcome-file>
     </welcome-file-list>
     <filter>
         <filter-name>struts2</filter-name>

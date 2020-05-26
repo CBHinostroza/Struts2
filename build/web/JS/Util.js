@@ -1,5 +1,5 @@
 
-function alerta()
+function msgconfirm()
 {
     var opcion = confirm("¿Seguro que desea eliminar?");
     if (opcion) { //Si la opcion es aceptar retorna true
@@ -10,10 +10,10 @@ function alerta()
 
 }
 
-function Limpiar() {
-    document.getElementById("txtnombre").value = "";
-    document.getElementById("txtpassword").value = "";
-    document.getElementById("txtconfirm").value = "";
-    document.getElementById("txtcorreo").value = "";
-    document.getElementById("cbotipo").value = 0;
-}
+//function Limpiar() {
+//    document.getElementById("txtnombre").value = "";
+//    document.getElementById("txtpassword").value = "";
+//    document.getElementById("txtconfirm").value = "";
+//    document.getElementById("txtcorreo").value = "";
+//    document.getElementById("cbotipo").value = 0;
+//}

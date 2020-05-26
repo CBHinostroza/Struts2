@@ -14,6 +14,9 @@
     </head>
     <body>
         <h1>Menu navegacion</h1>
+        <p>
+           Bienvenido <s:property value="#session.name"></s:property>(<s:property value="#application.tipo"></s:property>)
+        </p>
         <h2><s:property value="tipo"></s:property></h2>
         <s:url action="ListarProveedor" var="urlQRYProveedor">
             <s:param name="accion">QRY</s:param>

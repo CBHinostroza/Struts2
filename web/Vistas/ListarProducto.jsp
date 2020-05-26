@@ -10,8 +10,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script src="JS/Util.js" type="text/javascript"></script>
         <title>JSP Page</title>
+        <script src="../JS/Util.js" type="text/javascript"></script>
     </head>
     <body>
         <s:a href="inicio">Regresar</s:a>
@@ -60,7 +60,7 @@
                                     <s:property value="codigo"></s:property>
                                 </s:param>
                             </s:url>
-                            <s:a href="%{urlDEL}"><input type="button" value="Eliminar" onclick="return alerta()"></s:a>
+                            <s:a href="%{urlDEL}" onclick="return msgconfirm()"><input type="button" value="Eliminar"></s:a>
                             </td>
                         </tr>
                 </s:iterator>
