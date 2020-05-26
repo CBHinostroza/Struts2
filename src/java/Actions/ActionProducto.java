@@ -5,6 +5,7 @@
  */
 package Actions;
 
+import static Actions.ActionLogin.RecuperarSession;
 import BusinessServices.BeanCategoria;
 import BusinessServices.BeanProducto;
 import DataService.Despachadores.CategoriaDao;
@@ -176,15 +177,24 @@ public class ActionProducto extends ActionSupport {
     @SkipValidation
     public String ListarProducto() {
         String target = "error";
-        ProductoDao productoDao = new ProductoDaoImpl();
-        if (accion.equals("QRY")) {
-            lista = productoDao.listarProducto();
-            if (lista != null) {
-                target = "lista";
-            } else {
-                mensaje = "Error en el metodo listar producto";
+        boolean estado = RecuperarSession(); /*
+        Recuperando la session, si es true significa que no hay una session y si es falso
+        si existe un objeto de tipo name en la session
+        */
+        if (estado == true) {
+            target = "login";
+        } else {
+            ProductoDao productoDao = new ProductoDaoImpl();
+            if (accion.equals("QRY")) {
+                lista = productoDao.listarProducto();
+                if (lista != null) {
+                    target = "lista";
+                } else {
+                    mensaje = "Error en el metodo listar producto";
+                }
             }
         }
+
         return target;
 
     }
@@ -205,6 +215,7 @@ public class ActionProducto extends ActionSupport {
 
     public String RegistrarProducto() {
         String target = "error";
+        
         ProductoDao productoDao = new ProductoDaoImpl();
         if (accion.equals("INS")) {
             producto = new BeanProducto();
@@ -214,7 +225,7 @@ public class ActionProducto extends ActionSupport {
             producto.setStockinicial(stockinicial);
             producto.setStockminimo(stockminimo);
             producto.setCodigobarra(codigobarra);
-             /*Como el dato date que traemos desde la vista es tipo java, no se va almacenar en la base de datos
+            /*Como el dato date que traemos desde la vista es tipo java, no se va almacenar en la base de datos
             porque necesita un tipo de dato Date SQL en su formato 1999-09-09,
             asi que primero obtenemos el tiempo transcurrido en dias 
             y lo guardamos en una variable de tipo Date sql, pero porque guardarlo a tipo Date SQL? si
@@ -260,6 +271,7 @@ public class ActionProducto extends ActionSupport {
         return target;
     }
 
+    @SkipValidation
     public String EditarProducto() {
         String target = "error";
         ProductoDao productoDao = new ProductoDaoImpl();
@@ -272,7 +284,6 @@ public class ActionProducto extends ActionSupport {
             producto.setStockinicial(stockinicial);
             producto.setStockminimo(stockminimo);
             producto.setCodigobarra(codigobarra);
-
             /*Como el dato date que traemos desde la vista es tipo java, no se va almacenar en la base de datos
             porque necesita un tipo de dato Date SQL en su formato 1999-09-09,
             asi que primero obtenemos el tiempo transcurrido en dias 

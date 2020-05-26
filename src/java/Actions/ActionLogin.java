@@ -5,21 +5,32 @@ import DataService.Despachadores.Impl.UsuarioDaoImpl;
 import DataService.Despachadores.UsuarioDao;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.Map;
+import javax.servlet.http.HttpSession;
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.interceptor.SessionAware;
+import org.apache.struts2.interceptor.ApplicationAware;
+import org.apache.struts2.interceptor.validation.SkipValidation;
 
 
 
-public class ActionLogin extends ActionSupport  {
+public class ActionLogin extends ActionSupport implements SessionAware, ApplicationAware  {
 
-
-//
-//    
- 
-    
     private BeanUsuario usuario;
     private String accion;
     private String username;
     private String password;
     private String mensaje;
+    private Map<String,Object> session;
+    private Map<String,Object> application;
+
+    public Map<String, Object> getApplication() {
+        return application;
+    }
+
+    @Override
+    public void setApplication(Map<String, Object> application) {
+        this.application = application;
+    }
 
     public BeanUsuario getUsuario() {
         return usuario;
@@ -62,7 +73,15 @@ public class ActionLogin extends ActionSupport  {
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
     }
+     public Map<String, Object> getSession() {
+        return session;
+    }
 
+    @Override
+    public void setSession(Map<String, Object> session) {
+        this.session = session;
+    }
+    
     @Override
     public void validate(){
         if(getUsername().equals("") && getPassword().equals("")){
@@ -75,20 +94,24 @@ public class ActionLogin extends ActionSupport  {
             addActionError("Ingrese el password");
         }
     }
+
     
     public String login() {
-//        clearActionErrors();
         UsuarioDao usuarioDao = new UsuarioDaoImpl();
-        String target = "error";
+        String target;
         usuario = new BeanUsuario();
         usuario.setNombre(username);
         usuario.setContraseña(password);
         int x = usuarioDao.ValidarAcceso(usuario);
         switch (x) {
             case 1:
+                session.put("name",username);
+                application.put("tipo","ADMIN");
                 target = "success";
                 break;
             case 2:
+                session.put("name",username);
+                application.put("tipo","USER");
                 target = "success";
                 break;
             case 10:
@@ -96,14 +119,53 @@ public class ActionLogin extends ActionSupport  {
                 target = "input";
                 break;
             default:
-                mensaje = "Usuario no encontrado";
+                addActionError("Usuario no registrado");
+                target = "input";
+//                mensaje = "Usuario no encontrado";
                 break;
         }
-
         return target;
     }
-
+    
+    @SkipValidation
+    public String logout() throws Exception{
+        String ir;
+        if(session.containsKey("name")){ //SI ES QUE EXISTE UN OBJETO DE TIPO NAME EN LA SESSION
+            session.remove("name");
+            ir = "success";
+        }
+        else{
+            ir = "login";
+        }
+        return ir;    
+    }
+    
+    @SkipValidation
+    public String menu() throws Exception{
+        String ir;
+        if(session.containsKey("name")){ //SI ES QUE EXISTE UN OBJETO DE TIPO NAME EN LA SESSION
+            ir = "success";
+        }
+        else{
+            ir = "login";
+        }
+        return ir;   
+    }
+    
   
+    public static boolean RecuperarSession(){
+        boolean estado = false;
+        HttpSession ses = ServletActionContext.getRequest().getSession();
+        if(ses.getAttribute("name")==null){ //Si es que no existe un atributo de tipo name en la session, el estado sera true, caso contrario sera false
+            estado  = true;
+        }
+        return estado;
+    }
+   
+
+
+   
+
 
   
 }

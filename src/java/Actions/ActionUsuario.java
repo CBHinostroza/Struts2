@@ -1,5 +1,6 @@
 package Actions;
 
+import static Actions.ActionLogin.RecuperarSession;
 import BusinessServices.BeanTipoUsuario;
 import BusinessServices.BeanUsuario;
 import DataService.Despachadores.Impl.UsuarioDaoImpl;
@@ -7,7 +8,6 @@ import DataService.Despachadores.Impl.UsuarioTipoDaoImpl;
 import DataService.Despachadores.UsuarioDao;
 import DataService.Despachadores.UsuarioTipoDao;
 import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import java.util.List;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 
@@ -169,7 +169,6 @@ public class ActionUsuario extends ActionSupport {
                     mensaje = "Error en metodo listar usuario";
                 }
             } else {
-//                 target = "input";
                 mensaje = "Error en metodo Registrar Usuario";
             }
         }
@@ -218,14 +217,23 @@ public class ActionUsuario extends ActionSupport {
 
     @SkipValidation
     public String ListarUsuario() throws Exception {
-        UsuarioDao usuarioDao = new UsuarioDaoImpl();
         String target = "error";
-        if (accion.equals("QRY")) {
-            listausuario = usuarioDao.ListarUsuarios();
-            if (listausuario != null) {
-                target = "lista";
-            } else {
-                mensaje = "Error en metodo listar usuario";
+        boolean estado = RecuperarSession();
+        /*
+        Recuperando la session, si es true significa que no hay una session y si es falso entonces
+        si existe un objeto de tipo name en la session
+         */
+        if (estado == true) {
+            target = "login";
+        } else {
+            UsuarioDao usuarioDao = new UsuarioDaoImpl();
+            if (accion.equals("QRY")) {
+                listausuario = usuarioDao.ListarUsuarios();
+                if (listausuario != null) {
+                    target = "lista";
+                } else {
+                    mensaje = "Error en metodo listar usuario";
+                }
             }
         }
         return target;

@@ -1,5 +1,6 @@
 package Actions;
 
+import static Actions.ActionLogin.RecuperarSession;
 import BusinessServices.BeanProveedor;
 import BusinessServices.BeanTerritorio;
 import DataService.Despachadores.Impl.ProveedorDaoImpl;
@@ -43,21 +44,36 @@ public class ActionProveedor extends ActionSupport {
         this.codigo_territorio = codigo_territorio;
     }
 
+    @SkipValidation
+    public String ListarProveedor() throws Exception {
+        String target = "error";
+        boolean estado = RecuperarSession();
+        /*
+        Recuperando la session, si es true significa que no hay una session y si es falso
+        si existe un objeto de tipo name en la session
+         */
+        if (estado) { //Si es true
+            target = "login";
+        } else { //Si es falso    
+            ProveedorDao proveedorDao = new ProveedorDaoImpl();
+            lista = proveedorDao.listarProvedor();
+            if (lista != null) {
+                target = "lista";
+            } else {
+                mensaje = "Error en el metodo listar proveedor";
+            }
+            return target;
+        }
+        
+        return target;
+    }
+
     @Override
     @SkipValidation
     public String execute() throws Exception {
         String target = "error";
         ProveedorDao proveedorDao = new ProveedorDaoImpl();
-
         switch (accion) {
-            case "QRY":
-                lista = proveedorDao.listarProvedor();
-                if (lista != null) {
-                    target = "lista";
-                } else {
-                    mensaje = "Error en el metodo listar proveedor";
-                }
-                break;
             case "INS":
                 proveedor = new BeanProveedor();
                 proveedor.setNombre(nombre);
@@ -132,22 +148,33 @@ public class ActionProveedor extends ActionSupport {
     }
 
     @SkipValidation
-    public String ListarProveedor() {
-        ProveedorDao proveedorDao = new ProveedorDaoImpl();
+    public String BuscarProveedor() {
         String target = "error";
-        switch (accion) {
-            case "QRY":
-                lista = proveedorDao.listarProvedor();
-                if (lista != null) {
-                    target = "lista";
-                } else {
-                    mensaje = "Error en el metodo listar proveedor";
-                }
-                break;
-            default:
-                mensaje = "Error en la condicional switch";
-                break;
+        boolean estado = RecuperarSession();
+        /*
+        Recuperando la session, si es true significa que no hay una session y si es falso entonces
+        si existe un objeto de tipo name en la session
+         */
+        if (estado == true) {
+            target = "login";
+        } else {
+            ProveedorDao proveedorDao = new ProveedorDaoImpl();
+            switch (accion) {
+                case "QRY":
+                    lista = proveedorDao.listarProvedor();
+                    if (lista != null) {
+                        target = "lista";
+                    } else {
+                        mensaje = "Error en el metodo listar proveedor";
+                    }
+                    break;
+                default:
+                    mensaje = "Error en la condicional switch";
+                    break;
+            }
+            return target;
         }
+
         return target;
     }
 

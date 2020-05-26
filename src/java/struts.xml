@@ -6,10 +6,24 @@
     <constant name="struts.devMode" value="false">  
     </constant>
     <package name="Actions"  extends="struts-default,json-default">
-        <action name="validar" class="Actions.ActionLogin" method="login">
-            <result name="success">/Vistas/Menu.jsp</result>
+        <action name="login" class="Actions.ActionLogin" method="login">
+            <result name="success" type="redirectAction">
+                <param name="actionName">menu</param>
+            </result>
             <result name="error">/Vistas/respuesta.jsp</result>
             <result name="input">/Vistas/Login.jsp</result>
+        </action>
+        <action name="logout" class="Actions.ActionLogin" method="logout">
+            <result name="success">/Vistas/Login.jsp</result>
+            <result name="login">/Vistas/Login.jsp</result>
+        </action>
+           <!--
+        Este action menu se encargara de mostrar la pagina menu.jsp si es que el session existe un usuario
+        si no entonces mostrara la pagina login.jsp
+        -->
+        <action name="menu" class="Actions.ActionLogin" method="menu" >
+            <result name="success">/Vistas/Menu.jsp</result>
+            <result name="login">/Vistas/Login.jsp</result>
         </action>
         <action name="proveedor"  class="Actions.ActionProveedor" method="execute">
             <result name="lista">/Vistas/ListarProveedor.jsp</result>
@@ -20,11 +34,14 @@
             <result name="lista">/Vistas/RegistrarProveedor.jsp</result>
             <result name="error">/Vistas/respuesta.jsp</result>
         </action>
-        <action name="BuscarProveedor" class="Actions.ActionProveedor" method="ListarProveedor">
+        <action name="BuscarProveedor" class="Actions.ActionProveedor" method="BuscarProveedor">
             <result name="lista">/Vistas/BuscarProveedor.jsp</result>
+            <result name="error">/Vistas/respuesta.jsp</result>
+            <result name="login">/Vistas/Login.jsp</result>
         </action>
         <action name="ListarProducto" class="Actions.ActionProducto" method="ListarProducto">
             <result name="lista">/Vistas/ListarProducto.jsp</result>
+            <result name="login">/Vistas/Login.jsp</result>
             <result name="error">/Vistas/respuesta.jsp</result>
         </action>
         <action name="ListarCategoria" class="Actions.ActionProducto" method="ListarCategoria">
@@ -44,6 +61,11 @@
             <result name="lista">/Vistas/ListarProducto.jsp</result>
             <result name="error">/Vistas/respuesta.jsp</result>
             <result name="input">/Vistas/ActualizarProducto.jsp</result>
+        </action>
+        <action name="ListarProveedor" class="Actions.ActionProveedor" method="ListarProveedor">
+            <result name="lista">/Vistas/ListarProveedor.jsp</result>
+            <result name="error">/Vistas/Respuesta.jsp</result>
+            <result name="login">/Vistas/Login.jsp</result>
         </action>
         <action name="ObtenerProducto" class="Actions.ActionProducto" method="ObtenerProducto">
             <result name="editar">/Vistas/ActualizarProducto.jsp</result>
@@ -74,6 +96,7 @@
         <action name="ListarUsuario" class="Actions.ActionUsuario" method="ListarUsuario">
             <result name="lista">/Vistas/ListarUsuarios.jsp</result>
             <result name="error">/Vistas/respuesta.jsp</result>
+            <result name="login">/Vistas/Login.jsp</result>
         </action>
          <action name="BuscarUsuario" class="Actions.ActionUsuario" method="BuscarUsuario">
             <result name="success">/Vistas/ActualizarUsuario.jsp</result>

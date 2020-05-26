@@ -5,7 +5,6 @@ import DataService.Despachadores.UsuarioDao;
 import DataService.Despachadores.conexion.ConectaDB;
 import com.mysql.jdbc.Connection;
 import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;

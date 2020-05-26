@@ -9,7 +9,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <s:form action="validar" style="margin: auto; width: 400px" theme="simple" method="post">
+        <s:form action="login" style="margin: auto; width: 400px" theme="simple" method="post">
             <table>
                 <tr>
                     <td><s:textfield name="username" placeholder="Nombre"></s:textfield></td> 

@@ -12,7 +12,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <script src="../JS/Util.js" type="text/javascript"></script>
+        <script src="JS/Util.js" type="text/javascript"></script>
+
     </head>
     <body>
         <table style="margin: auto; width: 550px">
@@ -45,7 +46,7 @@
                                 <s:param name="accion">DEL</s:param>
                                 <s:param name="codigo"><s:property value="codigo"></s:property></s:param>
                             </s:url>
-                            <s:a href="%{alertaDEL}" onclick="return alerta()"><input type="button" value="Eliminar"></s:a>
+                            <s:a href="%{alertaDEL}" ><input type="button" value="Eliminar" onclick="return alerta()"></s:a>
                             </td>
                         </tr>
                 </s:iterator>
@@ -57,7 +58,6 @@
                         <s:a href="%{urlINS}"><input type="button" value="Agregar"></s:a>
                     </td>
                     </td>
-
                 </tr>
             </tfoot>
         </table>

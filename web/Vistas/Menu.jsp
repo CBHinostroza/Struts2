@@ -15,17 +15,20 @@
     <body>
         <h1>Menu navegacion</h1>
         <h2><s:property value="tipo"></s:property></h2>
-        <s:url action="proveedor" var="urlQRY">
+        <s:url action="ListarProveedor" var="urlQRYProveedor">
             <s:param name="accion">QRY</s:param>
         </s:url>
-        <s:a href="%{urlQRY}" ><input type="button" value="Proveedores"></s:a>
-        <s:url action="ListarProducto" var="urlQRY">
+        <s:a href="%{urlQRYProveedor}" ><input type="button" value="Proveedores"></s:a>
+        <s:url action="ListarProducto" var="urlQRYProducto">
             <s:param name="accion" >QRY</s:param>
         </s:url>
-        <s:a href="%{urlQRY}"><input type="button" value="Productos"></s:a>
-        <s:url action="ListarUsuario" var="urlQRY">
+        <s:a href="%{urlQRYProducto}"><input type="button" value="Productos"></s:a>
+        <s:url action="ListarUsuario" var="urlQRYUsuario">
             <s:param name="accion">QRY</s:param>
         </s:url>
-        <s:a href="%{urlQRY}"><input type="button" value="Usuarios"></s:a>
+        <s:a href="%{urlQRYUsuario}"><input type="button" value="Usuarios"></s:a>
+        
+        <s:url action="logout" var="urlLogout"></s:url>
+        <s:a href="%{urlLogout}"><input type="button" value="Cerrar Sesion"></s:a>
     </body>
 </html>
