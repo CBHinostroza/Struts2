@@ -62,6 +62,14 @@
             <result name="error">/Vistas/respuesta.jsp</result>
             <result name="input">/Vistas/ActualizarProducto.jsp</result>
         </action>
+        
+        <action name="ActionProductoJson" class="Actions.ActionProductoJson" method="EditarProductoJSONAJAX">
+            <result name="success" type="json">
+                <param name="excludeProperties">texto</param>
+                <param name="excludeNullProperties">true</param>
+            </result>
+        </action>
+        
         <action name="ListarProveedor" class="Actions.ActionProveedor" method="ListarProveedor">
             <result name="lista">/Vistas/ListarProveedor.jsp</result>
             <result name="error">/Vistas/Respuesta.jsp</result>

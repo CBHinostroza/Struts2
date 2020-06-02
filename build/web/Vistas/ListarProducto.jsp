@@ -6,12 +6,14 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="s" uri="/struts-tags" %>
+<%@taglib prefix="json" uri="/struts-json-tags" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <script src="../JS/Util.js" type="text/javascript"></script>
+        <script src="../JS/jquery-2.1.1.min.js" type="text/javascript"></script>
     </head>
     <body>
         <s:a href="inicio">Regresar</s:a>
@@ -47,13 +49,15 @@
                         <td><s:property value="fechaven"></s:property></td>
                         <td><s:property value="preciounitario"></s:property></td>
                             <td>
-                            <s:url action="ObtenerProducto" var="urlUPD">
-                                <s:param name="accion">GET</s:param>
+                            <s:a onclick="EditarProducto(%{codigo})">Editar</s:a>   
+
+                            <s:url action="ActionProductoJson" var="urlUPD">
+                                <!--<sparam name="accion">GET</sparam>-->
                                 <s:param name="codigo">
                                     <s:property value="codigo"></s:property>
                                 </s:param>
                             </s:url>
-                            <s:a href="%{urlUPD}"><input type="button" value="Editar"></s:a>
+                            <s:a href="%{urlUPD}" ><input type="button" value="Editar"></s:a>
                             <s:url action="EliminarProducto" var="urlDEL">
                                 <s:param name="accion">DEL</s:param>
                                 <s:param name="codigo">
@@ -75,12 +79,6 @@
                 </tr>
             </tfoot>
         </table>
-        <!--
-        <sform action="MostrarCodigoList">
-            <sselect list="lista" headerKey = "- 1" headerValue = "Seleccionar" listKey="codigobarra" listValue="nombre" name="codigo"></sselect>
-            <scheckboxlist list="lista" listKey="codigobarra" listValue="nombre" name="codigo"></scheckboxlist>
-            <sradio list="lista" listKey="codigobarra" listValue="nombre" name="codigo"></sradio>
-            <ssubmit value="Enviar"></ssubmit>
-        </sform> -->
+
     </body>
 </html>

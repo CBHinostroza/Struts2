@@ -13,9 +13,14 @@ import DataService.Despachadores.Impl.CategoriaDaoImpl;
 import DataService.Despachadores.Impl.ProductoDaoImpl;
 import DataService.Despachadores.ProductoDao;
 import com.opensymphony.xwork2.ActionSupport;
+import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 
 /**
@@ -34,6 +39,7 @@ public class ActionProducto extends ActionSupport {
         calendar.add(Calendar.YEAR, 3); //Le sumo años a la fecha actual
         return calendar.getTime(); // retorno la fecha sumada en años en formato por default (Mon May 18 22:50:29 COT 2020), struts2 ya se encarga de validar
     }
+    
 
     private String nombre;
     private int idproveedor;
@@ -338,5 +344,7 @@ public class ActionProducto extends ActionSupport {
         }
         return ir;
     }
-
+    
+   
+    
 }
